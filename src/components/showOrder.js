@@ -4,9 +4,9 @@ import{useLocation } from "react-router-dom";
 import { toast } from 'react-toastify';
 import productOrderService from '../services/productOrderService';
 import PDFFile from './PDFFile';
-import { pdf, PDFDownloadLink } from '@react-pdf/renderer';
+/* import { pdf, PDFDownloadLink } from '@react-pdf/renderer';
 import { jsPDF } from "jspdf";
-import 'jspdf-autotable';
+import 'jspdf-autotable'; */
 import { useNavigate } from "react-router-dom";
 
 
@@ -118,7 +118,7 @@ function ShowOrder() {
   return (
     <React.Fragment>
       
-  <div className="container" id="jsPDF">
+  <div className="container">
   <h1 className="text-center h3">הצעת מחיר עבור: {order && order.customerName}</h1>
   <h5 className="text-center">תאריך: {order && order.date}     מספר הזמנה: {order && order.numberOrder}</h5>
   <table className="table table-striped table-hover">
