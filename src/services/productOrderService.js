@@ -11,13 +11,15 @@ export function getProductByStatus(status){
     return http.get(`${apiUrl.apiUrl}/productOrders/${status}`);
 }
 
+export function getCustomerOrder(customerId){
+    return http.get(`${apiUrl.apiUrl}/productOrders/${customerId}`);
+}
+
 export function getProductOrders(){
     return http.get(`${apiUrl.apiUrl}/productOrders`);
 }
 
-export function getCustomerOrder(customerId){
-    return http.get(`${apiUrl.apiUrl}/productOrders/${customerId}`);
-}
+
 
 export function getOrderByNumberOrder(numberOrder){
     return http.get(`${apiUrl.apiUrl}/productOrders/numberOrder/${numberOrder}`);
