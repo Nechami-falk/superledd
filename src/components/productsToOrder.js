@@ -75,7 +75,7 @@ function ProductToOrder() {
       <td>{prod.customerName}</td>
       <td>{prod.company}</td>
       <td>{prod.color}</td>
-      <td style={{width:"8%"}}><img style={{width:"100%"}} src={`http://localhost:8182/uploads/${prod.catalogNumber}.png`} alt={prod.name} className="card-img-top"/></td>
+      <td style={{width:"8%"}}><img style={{width:"100%"}} src={`https://superled-api.render.com/uploads/${prod.catalogNumber}.png`} alt={prod.name} className="card-img-top"/></td>
       <td>{prod.quantity}</td>
       <td>{prod.price}</td>
       <td>{(prod.price)*(prod.quantity)}</td>
