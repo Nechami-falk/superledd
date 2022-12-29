@@ -55,7 +55,7 @@ function ProductToOrder() {
       <th></th>
       <th scope="col">שם המוצר</th>
       <th scope="col">מספר הזמנה</th>
-      <th scope="col">סטטוס</th>
+      <th scope="col">שם הלקוח</th>
       <th scope="col">חברה</th>
       <th scope="col">צבע</th>
       <th scope="col">תמונה</th>
@@ -72,7 +72,7 @@ function ProductToOrder() {
       <td>{i+1}</td>
       <td>{prod.name}</td>
       <td>{prod.numberOrder}</td>
-      <td>{prod.status}</td>
+      <td>{prod.customerName}</td>
       <td>{prod.company}</td>
       <td>{prod.color}</td>
       <td style={{width:"8%"}}><img style={{width:"100%"}} src={`http://localhost:8182/uploads/${prod.catalogNumber}.png`} alt={prod.name} className="card-img-top"/></td>

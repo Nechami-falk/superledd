@@ -19,8 +19,6 @@ export function getProductOrders(){
     return http.get(`${apiUrl.apiUrl}/productOrders`);
 }
 
-
-
 export function getOrderByNumberOrder(numberOrder){
     return http.get(`${apiUrl.apiUrl}/productOrders/numberOrder/${numberOrder}`);
 }
@@ -35,13 +33,14 @@ export function deleteProdFromOrder(productId){
     return http.put(`${apiUrl.apiUrl}/productOrders/${productId}`)
 } */
 
-export function updateStatusToOrder(id, status){
+export function updateStatusToOrder(id, status, date){
     console.log('101010');
-    let details = {
+  /*   let details = {
         productId: id,
-        status:status
-    }
-    return http.put(`${apiUrl.apiUrl}/productOrders/status`,details);
+        status:status,
+        date:date
+    } */
+    return http.put(`${apiUrl.apiUrl}/productOrders?id=${id}&status=${status}&date=${date}`);
 }
 
 const service = {

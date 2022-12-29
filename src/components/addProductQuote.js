@@ -347,7 +347,6 @@ const onChange = (e)=>{
         ))} 
         </datalist>
 
-          <br></br>
           <label className="form-label">חברה</label>
             <select className="form-select" name="company"{...register('company')}>
               {currentProd && <option className="option-form text-end"  key={currentProd.id}  selected defaultValue={currentProd.company}>{currentProd.company}</option>}

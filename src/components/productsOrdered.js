@@ -5,9 +5,11 @@ function ProductsOrdered() {
 
   useEffect( () => {
     getOrderedProdeuct();
-  });
+    getCurrentDate();
+  }, []);
 
 const [productsOrdered, setProductsOrdered] = useState();
+const [date, setDate] = useState();
 
 const getOrderedProdeuct = async()=>{
   try{
@@ -22,13 +24,23 @@ const getOrderedProdeuct = async()=>{
 
 const onUpdateProvided = async(id)=>{
   try{
-    await productOrderService.updateStatusToOrder(id, 'provided');
+    await productOrderService.updateStatusToOrder(id, 'provided', date);
+   /*  await productOrderService.updateDelivaryDate(id, date); */
     getOrderedProdeuct();
   }
   catch(ex){
     console.log(ex.message);
   }
 }
+
+const getCurrentDate = () =>{
+  let curr = new Date();
+  console.log(curr);
+  curr.setDate(curr.getDate());
+  var date = curr.toISOString().substring(0,10);
+  setDate(date);
+  console.log(date);
+  }
 
   return (
     <React.Fragment>
@@ -41,7 +53,6 @@ const onUpdateProvided = async(id)=>{
       <th scope="col">שם המוצר</th>
       <th scope="col">מספר הזמנה</th>
       <th scope="col">שם הלקוח</th>
-      <th scope="col">סטטוס</th>
       <th scope="col">חברה</th>
       <th scope="col">צבע</th>
       <th scope="col">תמונה</th>
@@ -59,7 +70,6 @@ const onUpdateProvided = async(id)=>{
       <td>{prod.name}</td>
       <td>{prod.numberOrder}</td>
       <td>{prod.customerName}</td>
-      <td>{prod.status}</td>
       <td>{prod.company}</td>
       <td>{prod.color}</td>
       <td style={{width:"8%"}}><img style={{width:"100%"}} src={`http://localhost:8182/uploads/${prod.catalogNumber}.png`} alt={prod.name} className="card-img-top"/></td>
