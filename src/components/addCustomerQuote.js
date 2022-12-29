@@ -5,7 +5,6 @@ import customerService from '../services/customerService';
 import orderService from '../services/orderService';
 import designerService from '../services/designerService';
 import employeeService from '../services/employeeService';
-//# sourceMappingURL=http://superled/render/addCustomerQuote.com.map
 
 
 function AddCustomerQuote(props) {
@@ -103,10 +102,6 @@ function AddCustomerQuote(props) {
         let curr = new Date();
         curr = formatDate(curr);
         console.log(curr);
-        /* curr.setDate(curr.getDate());
-        let newdate = curr.toISOString().substring(0,10);
-        console.log('date');
-          console.log(newdate); */
     
         let newOrder = {
           customerId:customerId,
@@ -127,8 +122,6 @@ function AddCustomerQuote(props) {
             console.log(ex.response);
           }
         }
-        
-        /* navigate('/addQuoteForm', {state:newOrder}); */
     }
 
     function padTo2Digits(num) {
@@ -151,21 +144,19 @@ function AddCustomerQuote(props) {
     <React.Fragment>
     <div className="container col-lg-5 mt-4 text-end">
       <h1 className = "mb-3 text-center">טופס הצעת מחיר</h1>
-      {/* <Headers
-        renderCount={renderCount}
-        description="Performant, flexible and extensible forms with easy-to-use validation."
-      /> */}
-
+   
       <form onSubmit={handleSubmit(onSubmit)}>
       <div className="border p-2">
           <h4 className="m-1">פרטי המזמין</h4>
           <label className="form-label">תאריך</label>
             <input className="form-control" type="date" defaultValue={tdate} name="date"{...register("date",{required:true})}/>
+            
             <label className="form-label">שם</label>
             <input className="form-control text-end"  type="text" name="name"{...register("name",{required:true})}/>
             {errors.name && errors.name.type === "required" && (
             <p className="errorMsg" style={errorStyle}>חובה להזין שם</p>
           )}
+
             <label className="form-label">טלפון נייד</label>
             <input className="form-control text-end"  type="text" name="phone"{...register("phone",{required:true, minLength:9, maxLength:10})}/>
             {errors.phone && errors.phone.type === "required" && (
@@ -174,6 +165,7 @@ function AddCustomerQuote(props) {
           {errors.phone && (errors.phone.type === "maxLength" || errors.phone.type === "minLength") && (
             <p className="errorMsg" style={errorStyle}>מספר טלפון לא תקין</p>
           )}
+          
             <label className="form-label">טלפון בית</label>
             <input className="form-control text-end"  type="text" name="phone2"{...register("phone2",{minLength:9, maxLength:10})}/>
             {errors.phone2 && (errors.phone2.type === "maxLength" || errors.phone2.type === "minLength") && (
@@ -182,19 +174,23 @@ function AddCustomerQuote(props) {
           {errors.phone2 && errors.phone2.type === "minLenght" && (
             <p className="errorMsg" style={errorStyle}>מספר טלפון לא תקין</p>
           )}
+
             <label className="form-label">מייל</label>
             <input className="form-control text-end" type="email" name="email"{...register("email",{pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/})}/>
           {errors.email && errors.email.type === "pattern" && (
             <p className="errorMsg" style={errorStyle}>מייל לא חוקי</p>
           )}
+
             <label className="form-label">כתובת</label>
             <input className="form-control text-end" type="adress" name="adress" {...register("adress")}/>
 
-        <label className="form-label">הגיע דרך מעצב.ת / אחר</label>
+          <label className="form-label">הגיע דרך מעצב.ת / אחר</label>
           <select className="form-select text-end"  name="designer" {...register("designer")}>
             <option>בחר</option>
             {designers && designers.map((design,id) => (
+              <React.Fragment key={id}>
             <option className="option-form" key={id}>{design.designerName}</option>
+            </React.Fragment>
             ))};
           </select>
 
@@ -202,16 +198,16 @@ function AddCustomerQuote(props) {
           <select className="form-select text-end"  name="byEmployee" {...register("byEmployee")}>
             <option>בחר</option>
             {employees && employees.map((employee,id) => (
+              <React.Fragment key={id}>
             <option className="option-form" key={id}>{employee.employeeName}</option>
+            </React.Fragment>
             ))};
           </select>
-            
-            
+
             <div className="text-center">
-            {/* <Link to={`/addQuoteForm/${customer}`} type="submit" className="btn btn-success mt-3">המשך</Link> */}
             <input type="submit" className="btn btn-success mt-3"/>
             
-            </div>
+          </div>
         </div>
         </form>
         </div>

@@ -372,7 +372,6 @@ const onChange = (e)=>{
           <option>בחר</option>
           {locations && locations.map((location) => (
           <option className="option-form text-end" key={location.id} defaultValue={ currentProd && currentProd.location}>{location.locationName}</option>
-          
             ))};
         </select>
 
