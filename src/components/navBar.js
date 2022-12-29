@@ -28,13 +28,13 @@ function NavBar() {
           <Nav  className="m-3"/* className="me-auto" */>
 
           <NavDropdown title="ניהול" id="basic-nav-dropdown">
-              <NavDropdown.Item to="/#/addProduct" as={Link} className="text-end">הוספת מוצר</NavDropdown.Item>
-              <NavDropdown.Item to="/#/addDesigner" as={Link} className="text-end">הוספת מעצב</NavDropdown.Item>
-              <NavDropdown.Item to="/#/addEmployee" as={Link} className="text-end">הוספת עובד</NavDropdown.Item>
-              <NavDropdown.Item to="/#/addCompany" as={Link} className="text-end">הוספת חברה</NavDropdown.Item>
-              <NavDropdown.Item to="/#/addCategory" as={Link} className="text-end">הוספת קטגוריה</NavDropdown.Item>
-              <NavDropdown.Item to="/#/addCustomer" as={Link} className="text-end">הוספת לקוח</NavDropdown.Item>
-              <NavDropdown.Item to="/#/addLocation" as={Link} className="text-end">הוספת מיקום</NavDropdown.Item>
+              <NavDropdown.Item to="/addProduct" as={Link} className="text-end">הוספת מוצר</NavDropdown.Item>
+              <NavDropdown.Item to="/addDesigner" as={Link} className="text-end">הוספת מעצב</NavDropdown.Item>
+              <NavDropdown.Item to="/addEmployee" as={Link} className="text-end">הוספת עובד</NavDropdown.Item>
+              <NavDropdown.Item to="/addCompany" as={Link} className="text-end">הוספת חברה</NavDropdown.Item>
+              <NavDropdown.Item to="/addCategory" as={Link} className="text-end">הוספת קטגוריה</NavDropdown.Item>
+              <NavDropdown.Item to="/addCustomer" as={Link} className="text-end">הוספת לקוח</NavDropdown.Item>
+              <NavDropdown.Item to="/addLocation" as={Link} className="text-end">הוספת מיקום</NavDropdown.Item>
             </NavDropdown>
 
           <NavDropdown title="הצעות מחיר" id="basic-nav-dropdown">
