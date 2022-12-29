@@ -192,18 +192,22 @@ function AddCustomerQuote(props) {
 
         <label className="form-label">הגיע דרך מעצב.ת / אחר</label>
           <select className="form-select text-end"  name="designer" {...register("designer")}>
+           <React.Fragment>
             <option>בחר</option>
             {designers && designers.map((design,id) => (
             <option className="option-form" key={id}>{design.designerName}</option>
             ))};
+            </React.Fragment>
           </select>
 
         <label className="form-label">מבצע.ת ההזמנה</label>
           <select className="form-select text-end"  name="byEmployee" {...register("byEmployee")}>
+          <React.Fragment>
             <option>בחר</option>
             {employees && employees.map((employee,id) => (
             <option className="option-form" key={id}>{employee.employeeName}</option>
             ))};
+          </React.Fragment>
           </select>
             
             
