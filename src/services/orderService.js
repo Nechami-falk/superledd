@@ -21,11 +21,17 @@ export function getQuotePriceOrders(){
     console.log('getQuotePriceOrders');
     return http.get(`${apiUrl.apiUrl}/orders/quotePrice`)
 }
+
+export function deleteOrder(id){
+    console.log('id', id);
+    return http.delete(`${apiUrl.apiUrl}/orders/${id}`)
+}
 const service = {
     addOrder,
     getOrders,
     getBigNumberOrder,
-    getQuotePriceOrders
+    getQuotePriceOrders,
+    deleteOrder
 }
 
 export default service;

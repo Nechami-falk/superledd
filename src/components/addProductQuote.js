@@ -89,6 +89,8 @@ function AddProductQuote() {
 }
   const navigate = useNavigate();
 
+  const shadesLight = ['C.C.T', '4000k', '3000k', '6000k' ];
+
   const [locations, setLocations ] = useState();
   const [orderDetails, setOrderDetails] = useState();
   const [products, setProducts] = useState([]);
@@ -241,9 +243,17 @@ const onChange = (e)=>{
    addProductToDB(data);
    console.log(data);
  console.log('123'); 
+ let newOrderDetails = {
+  customerName:orderDetails.customerName,
+  customerId:orderDetails.customerId,
+  byEmployee:orderDetails.byEmployee,
+  designer:orderDetails.designer,
+  numberOrder:orderDetails.numberOrder,
+  status:orderDetails.status
+ }
   data.image = `http://localhost:8182/${catalogNumber}.png`;
    let details = {
-     ...orderDetails,
+     ...newOrderDetails,
      ...data,
      
     }
@@ -251,8 +261,9 @@ const onChange = (e)=>{
    try{
      await productOrderService.addProductToOrder(details);
      toast.success('המוצר התווסף להזמנה');
-     reset();
+     reset(); 
      setCurrentProd();
+     getCatalogNumber();
 
    }
    catch(ex){
@@ -273,13 +284,25 @@ const onChange = (e)=>{
     setError('');
     let name = e.target.value;
     setProductName(name);
+    try{
     let data = await productService.getProductByName(name);
     console.log(data);
     setCurrentProd(data.data);
     setImage(data.data.image);
     console.log(data.data.image);
     setCatalogNumber(data.data.catalogNumber);
-    reset({});
+    reset({});  
+  }
+    catch(ex){
+      if(ex){
+        console.log('no');
+        getCatalogNumber();
+        setCurrentProd();
+        setImage();
+      }
+      console.log(ex);
+    }
+   
   } 
 
   const onCompletionOrder= (data)=>{
@@ -302,17 +325,17 @@ const onChange = (e)=>{
     console.log(e.target.value);
     let price=e.target.value;
     if(price < 500){
-     let newPrice = price*1.8;
+     let newPrice = parseFloat(price*1.8).toFixed(2);
      console.log('קטן מחמש מאות');
      setPrice(newPrice);
     }
     if(price > 500 && price < 1000){
-      let newPrice = price * 1.7;
+      let newPrice = parseFloat(price * 1.7).toFixed(2);
       console.log('קטן מאלף ');
       setPrice(newPrice);
     }
     if(price > 1000){
-      let newPrice = price * 1.65;
+      let newPrice = parseFloat(price * 1.65).toFixed(2);
       console.log('גדול מאלף ');
       setPrice(newPrice);
     }
@@ -377,7 +400,15 @@ const onChange = (e)=>{
 
           <label className="form-label">דגם</label>
             <input className="form-control text-end"  type="text" defaultValue ={currentProd && currentProd.model} {...register('model')} />
-          
+            
+          <label className="form-label">גוון אור</label>
+        <select className="form-select text-end"  name="shadeLight" {...register("shadeLight")}>
+          <option>בחר גוון</option>
+             {shadesLight && shadesLight.map((shade, i) => (
+          <option className="option-form text-end" key={i} value={shade}>{shade}</option>
+            ))};
+        </select>
+
           <label className="form-label">מק"ט</label>
             <input className="form-control text-end" type="text" value={catalogNumber} {...register('catalogNumber')} />
           

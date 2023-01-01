@@ -65,10 +65,10 @@ function DownloadOrder() {
     <thead>
       <tr>
         <th scope="col"></th>
-        <th>מספר הזמנה</th>
         <th scope="col">שם המוצר</th>
-        <th scope="col">חברה</th>
-        <th scope="col">צבע</th>
+        <th scope="col">צבע גוף התאורה</th>
+        <th scope="col">צבע אור</th>
+        <th scope="col">מיקום בבית</th>
         <th scope="col">תמונה</th>
         <th scope="col">כמות</th>
         <th scope="col">מחיר</th>
@@ -79,10 +79,10 @@ function DownloadOrder() {
     {products && products.map((prod, i)=>(
       <tr>
         <td>{i+1}</td>
-        <td>{prod.numberOrder}</td>
         <td>{prod.name}</td>
-        <td>{prod.company}</td>
         <td>{prod.color}</td>
+        <td>{prod.shadeLight}</td>
+        <td>{prod.location}</td>
         <td style={{width:"8%"}}>
         <img style={{width:"100%"}} src={`http://localhost:8182/uploads/${prod.catalogNumber}.png`} alt={prod.name} /* className="card-img-top" *//>
         </td>

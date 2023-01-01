@@ -1,0 +1,72 @@
+.navbar {
+  background-color: #f5f1f1 !important;
+}
+
+.react-datalist-input__textbox-option {
+  width: "100" !important;
+  border: 0px;
+  list-style-type: none;
+}
+
+.inputStyle .input {
+  border: none !important;
+}
+
+.react-datalist-input__textbox {
+  border: none !important;
+}
+
+.react-datalist-input__container {
+  border: none !important;
+}
+
+/* .container {
+    width: 50px;
+    height: 100px;
+    background-color: #0a0a23;
+}
+
+.container img {
+    width: 50px;
+    margin: auto;
+    display: block;
+} */
+.imgStyle {
+  width: 100px;
+}
+
+.homeStyle {
+  background-color: red;
+  color: yellow;
+}
+
+.popup-overlay {
+  background-color: rgba(215, 211, 211, 0.7);
+}
+
+.react-confirm-alert-overlay {
+  background: rgba(66, 66, 66, 0.7);
+}
+
+.react-confirm-alert-button-group {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-pack: center !important;
+      -ms-flex-pack: center !important;
+          justify-content: center !important;
+}
+
+.react-confirm-alert-button-group button {
+  background-color: red !important;
+}
+
+.react-confirm-alert-body {
+  text-align: center !important;
+  border: 2px solid red;
+}
+
+.react-confirm-alert-body h1 {
+  color: red !important;
+}
+/*# sourceMappingURL=main.css.map */

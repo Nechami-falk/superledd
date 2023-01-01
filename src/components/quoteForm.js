@@ -1,6 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import orderService from '../services/orderService';
 import {Link, useNavigate} from 'react-router-dom';
+import { confirmAlert } from 'react-confirm-alert'; 
+import 'react-confirm-alert/src/react-confirm-alert.css';
+
+
 
 function QuoteForm() {
 
@@ -23,6 +27,30 @@ function QuoteForm() {
   }
   }
 
+
+const onDeleteOrder = (quote)=>{
+  console.log(quote);
+  
+  confirmAlert({
+    title: 'מחיקת ההזמנה',
+    message: 'בטוח שאת/ה רוצ/ה למחוק את ההזמנה?',
+    buttons: [
+      {
+        label: 'כן',
+        onClick: ()=> deleteOrder(quote)
+      },
+      {
+        label: 'לא',
+      }
+    ],
+    overlayClassName: ".react-confirm-alert-overlay"
+  }); 
+  getAllQuotePrices();
+};
+
+const deleteOrder = async(quote)=>{
+  await orderService.deleteOrder(quote._id);
+}
   /* const formatDate = (tdate) =>{
     let curr = new Date(tdate);
         curr.setDate(curr.getDate());
@@ -36,6 +64,9 @@ function QuoteForm() {
     navigate('/showOrder',{state:numberOrder});
   }
 
+
+  
+
   return (
     <React.Fragment>
     <div className="container col-lg-12 mt-4 text-end">
@@ -46,8 +77,10 @@ function QuoteForm() {
           
             <div className="card-body">
             <h4><span className="me-5">{quote.date}</span>  {quote.customerName}</h4>
-           
-            <button to='#' onClick={()=>{goShowProduct(quote)}} className="btn btn-primary">פרטים</button>
+            <div className ="d-flex justify-content-between">
+            <button  onClick={()=>{goShowProduct(quote)}} className="btn btn-primary">פרטי ההזמנה </button>
+            <button  onClick={()=>{onDeleteOrder(quote)}} className="btn btn-danger">מחיקת ההזמנה</button>
+            </div>
           </div>
           </div>
         

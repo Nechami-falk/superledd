@@ -64,7 +64,7 @@ const onDeleteFromProd = async(id)=>{
       <td style={{width:"8%"}}><img style={{width:"100%"}} src={`https://superled-api.onrender.com/uploads/${prod.catalogNumber}.png`} alt={prod.name} className="card-img-top"/></td>
       <td>{prod.quantity}</td>
       <td>{prod.price}</td>
-      <td>{(prod.price)*(prod.quantity)}</td>
+      <td>{parseFloat((prod.price)*(prod.quantity)).toFixed(2)}</td>
       <td><button className="btn btn-danger mt-3" onClick={()=>{onDeleteFromProd(prod._id)}}>מחיקה</button></td>
     </tr>
     ))}

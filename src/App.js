@@ -1,4 +1,5 @@
 import React from 'react';
+import './sass/main.css';
 import { Routes, Route } from "react-router-dom";
 import './App.css';
 //import Header from './components/header';
@@ -24,6 +25,7 @@ import DownloadOrder from './components/downloadOrder';
 import AddLocation from './components/addLocation';
 import Home from './components/home';
 import Page404 from './components/page404';
+import EditProduct from './components/editProduct';
 
 function App() {
   
@@ -57,6 +59,7 @@ function App() {
       <Route path = "productsOrdered" element={<ProductsOrdered/>}/>
       <Route path = "downloadOrder" element={<DownloadOrder/>}/>
       <Route path = "addLocation" element={<AddLocation/>}/>
+      <Route path = "editProduct" element={<EditProduct/>}/>
       <Route exact path = "/" element={<Home/>}/>
       <Route path = "/" element={<Page404/>}/>
 

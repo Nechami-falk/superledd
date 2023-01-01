@@ -70,6 +70,7 @@ catch(ex){
   }
 }
 
+  const shadesLight = ['C.C.T', '4000k', '3000k', '6000k' ];
   const status = ['הצעת מחיר', 'אושר להזמנה', 'הוזמן', 'סופק'];
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
   }); 
@@ -123,6 +124,7 @@ const onSubmit = async(data)=> {
     toast.success('המוצר התווסף בהצלחה!');
     reset();    
     getCatalogNumber();
+    
   }
   catch(ex){
     console.log(ex.response.data);
@@ -136,17 +138,17 @@ const caculatePrice = (e) =>{
   console.log(e.target.value);
   let price=e.target.value;
   if(price < 500){
-   let newPrice = price*1.8;
+    let newPrice = parseFloat(price*1.8).toFixed(2);
    console.log('קטן מחמש מאות');
    setPrice(newPrice);
   }
   if(price > 500 && price < 1000){
-    let newPrice = price * 1.7;
+    let newPrice = parseFloat(price*1.7).toFixed(2);
     console.log('קטן מאלף ');
     setPrice(newPrice);
   }
   if(price > 1000){
-    let newPrice = price * 1.65;
+    let newPrice = parseFloat(price*1.65).toFixed(2);
     console.log('גדול מאלף ');
     setPrice(newPrice);
   }
@@ -202,7 +204,16 @@ const errorStyle = {
         
         <label className="form-label">דגם</label>
             <input className="form-control text-end" type="text"  name="model"{...register("model")}/>
-        
+           
+            <label className="form-label">גוון אור</label>
+        <select className="form-select text-end"  name="shadeLight" {...register("shadeLight")}>
+          <option>בחר גוון</option>
+             {shadesLight && shadesLight.map((shade, i) => (
+          <option className="option-form text-end" key={i} value={shade}>{shade}</option>
+            ))};
+        </select>
+               
+
         <label className="form-label">צבע</label>
             <input className="form-control text-end" type="text"  name="color"{...register("color")}/>
 

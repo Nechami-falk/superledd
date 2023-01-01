@@ -24,7 +24,7 @@ const getOrderedProdeuct = async()=>{
 
 const onUpdateProvided = async(id)=>{
   try{
-    await productOrderService.updateStatusToOrder(id, 'provided', date);
+    await productOrderService.updateStatusToProduct(id, 'provided', date);
    /*  await productOrderService.updateDelivaryDate(id, date); */
     getOrderedProdeuct();
   }

@@ -33,7 +33,7 @@ export function deleteProdFromOrder(productId){
     return http.put(`${apiUrl.apiUrl}/productOrders/${productId}`)
 } */
 
-export function updateStatusToOrder(id, status, date){
+export function updateStatusToProduct(id, status, date){
     console.log('101010');
   /*   let details = {
         productId: id,
@@ -51,7 +51,7 @@ const service = {
     getOrderByNumberOrder,
     deleteProdFromOrder,
    /*  editProductToOrder, */
-    updateStatusToOrder
+    updateStatusToProduct
 }
 
 export default service;
