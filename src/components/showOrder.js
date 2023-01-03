@@ -175,7 +175,7 @@ function ShowOrder() {
       <td>{prod.shadeLight}</td>
       <td>{prod.location}</td>
       <td style={{width:"8%"}}>
-      <img style={{width:"100%"}} src={`https://superled-api.onrender.com/uploads/110.png`} alt={prod.name} /* className="card-img-top" *//>
+      <img style={{width:"100%"}} src={`https://superled-api.onrender.com/uploads/${prod.catalogNumber}.png`} alt={prod.name} /* className="card-img-top" *//>
       </td>
       <td>{prod.quantity}</td>
       <td>{prod.price}</td>
