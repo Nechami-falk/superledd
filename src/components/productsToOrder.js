@@ -24,7 +24,7 @@ function ProductToOrder() {
   const onUpdatProductOrder = async(id) =>{
     let status = 'ordered'
     try{
-      await productOrderService.updateStatusToOrder(id, 'ordered');
+      await productOrderService.updateStatusToProduct(id, 'ordered');
       toast.success('המוצר הוזמן');
       getProductByStatus();
       
@@ -75,7 +75,7 @@ function ProductToOrder() {
       <td>{prod.customerName}</td>
       <td>{prod.company}</td>
       <td>{prod.color}</td>
-      <td style={{width:"8%"}}><img style={{width:"100%"}} src={`https://superled-api.onrender.com/uploads/${prod.catalogNumber}.png`} alt={prod.name} className="card-img-top"/></td>
+      <td style={{width:"8%"}}><img style={{width:"100%"}} src={`https://superled-api.onrender.com/${prod.catalogNumber}.png`} alt={prod.name} className="card-img-top"/></td>
       <td>{prod.quantity}</td>
       <td>{prod.price}</td>
       <td>{(prod.price)*(prod.quantity)}</td>
