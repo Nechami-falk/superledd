@@ -141,16 +141,19 @@ const caculatePrice = (e) =>{
     let newPrice = parseFloat(price*1.8).toFixed(2);
    console.log('קטן מחמש מאות');
    setPrice(newPrice);
+   reset({price:newPrice})
   }
   if(price > 500 && price < 1000){
     let newPrice = parseFloat(price*1.7).toFixed(2);
     console.log('קטן מאלף ');
     setPrice(newPrice);
+    reset({price:newPrice})
   }
   if(price > 1000){
     let newPrice = parseFloat(price*1.65).toFixed(2);
     console.log('גדול מאלף ');
     setPrice(newPrice);
+    reset({price:newPrice})
   }
 }
 

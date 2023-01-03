@@ -322,17 +322,21 @@ const onChange = (e)=>{
      let newPrice = parseFloat(price*1.8).toFixed(2);
      console.log('קטן מחמש מאות');
      setPrice(newPrice);
+     reset({price:newPrice})
     }
     if(price > 500 && price < 1000){
       let newPrice = parseFloat(price * 1.7).toFixed(2);
       console.log('קטן מאלף ');
       setPrice(newPrice);
+      reset({price:newPrice})
     }
     if(price > 1000){
       let newPrice = parseFloat(price * 1.65).toFixed(2);
       console.log('גדול מאלף ');
       setPrice(newPrice);
+      reset({price:newPrice})
     }
+    
   }
    
 
@@ -413,7 +417,7 @@ const onChange = (e)=>{
             <input className="form-control text-end" onKeyUp={(e)=>caculatePrice(e)} type="text" defaultValue={ currentProd && currentProd.agentPrice} {...register('agentPrice')}/>        
 
           <label className="form-label">מחיר</label>
-            <input className="form-control text-end"  type="text" defaultValue={ currentProd ? currentProd.price : price} {...register('price')}/>        
+            <input className="form-control text-end"  type="text" name='price' defaultValue={ currentProd ? currentProd.price : price} {...register('price')}/>        
           
           <label className="form-label">תמונה</label>
             <input className="form-control text-end" onInput={onChange} type="file" defaultValue={ currentProd && currentProd.image} onChange={handleFileChange}  {...register('image')}/> 
