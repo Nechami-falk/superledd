@@ -22,7 +22,8 @@ function ShowOrder() {
   const statuses = [{value:'ordered', name:'הוזמן'}, 
                     {value:'toOrder', name:'להזמנה'},
                     {value:'inStock',name:'במלאי'},
-                    {value:'provided',name:'סופק ללקוח'}];
+                    {value:'provided',name:'סופק ללקוח'},
+                    {value:'offerPrice', name:'הצעת מחיר'}];
 
   let location = useLocation();
   const navigate = useNavigate();
