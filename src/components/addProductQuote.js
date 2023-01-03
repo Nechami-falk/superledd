@@ -11,20 +11,14 @@ import locationService from '../services/locationService';
 function AddProductQuote() {
   
     useEffect( () => {
-      //getCustomer();
-   /*    getDate(); */
+      
       getProducts();
       getCompanies();
       getCategories();
       getOrderDetails();
       getLocations();
       getCatalogNumber();
-      /* reset({
-        quantity:1,
-      },{
-        keepErrors: true, 
-        keepDirty: true,
-      }); */
+
     }, []);
 
     const getProducts = async() =>{
