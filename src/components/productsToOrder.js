@@ -1,14 +1,17 @@
 import React, {useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import companyServies from '../services/companyService';
 import productOrderService from '../services/productOrderService'
 
 function ProductToOrder() {
 
   useEffect( () => {
     getProductByStatus();
+    getCompanies();
   }, []);
 
   const [ productsToOrder ,setProductsToOrder] = useState([]);
+  const [companies, setCompanies] = useState();
 
   const getProductByStatus = async() => {
     try{
@@ -20,6 +23,17 @@ function ProductToOrder() {
       console.log(ex);
     }
   }
+
+  const getCompanies = async()=>{
+    try{
+    let data = await companyServies.getCompany();
+    console.log(data);
+    setCompanies(data.data);
+    }
+    catch(ex){
+    console.log(ex);
+    }
+      }
 
   const onUpdatProductOrder = async(id) =>{
     let status = 'ordered'
@@ -44,10 +58,34 @@ function ProductToOrder() {
   }
  }
   
+ const onChangeCompany = async (e)=>{
+  console.log(e.target.value);
+  try{
+    let data = await productOrderService.getProductToOrderByCompany(e.target.value, 'toOrder');
+    console.log(data);
+  }
+  catch(ex){
+    console.log(ex);
+  }
+ }
 
   return (
     <React.Fragment>
-    <div className="container">
+      <div className='container'>
+      <h1 className='text-center'>מוצרים להזמנה</h1>
+
+      <div className="input-group mb-3">
+  <div className="input-group-prepend">
+    <label className="input-group-text" for="inputGroupSelect01">מיין לפי חברה</label>
+  </div>
+  <select className="custom-select" id="inputGroupSelect01" onChange={onChangeCompany}>
+    {companies && companies.map((company)=>(
+      <option key={company._id} value={company.companyName}>{company.companyName}</option>
+    ))}
+  </select>
+</div>
+
+
     <div className="container">
   <table className="table table-striped table-hover">
   <thead>
@@ -75,7 +113,7 @@ function ProductToOrder() {
       <td>{prod.customerName}</td>
       <td>{prod.company}</td>
       <td>{prod.color}</td>
-      <td style={{width:"8%"}}><img style={{width:"100%"}} src={`https://superled-api.onrender.com/${prod.catalogNumber}.png`} alt={prod.name} className="card-img-top"/></td>
+      <td style={{width:"8%"}}><img style={{width:"100%"}} src={`https://superled-api.onrender.com/${prod.name}.png`} alt={prod.name} className="card-img-top"/></td>
       <td>{prod.quantity}</td>
       <td>{prod.price}</td>
       <td>{(prod.price)*(prod.quantity)}</td>
@@ -86,6 +124,7 @@ function ProductToOrder() {
   </tbody>
 </table>
 </div>
+    
     </div>
     </React.Fragment>
   )
