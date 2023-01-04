@@ -26,6 +26,8 @@ import AddLocation from './components/addLocation';
 import Home from './components/home';
 import Page404 from './components/page404';
 import EditProduct from './components/editProduct';
+import MyProducts from './components/myProducts';
+
 
 function App() {
   
@@ -60,6 +62,7 @@ function App() {
       <Route path = "downloadOrder" element={<DownloadOrder/>}/>
       <Route path = "addLocation" element={<AddLocation/>}/>
       <Route path = "editProduct" element={<EditProduct/>}/>
+      <Route path = "myProducts" element={<MyProducts/>}/>
       <Route exact path = "/" element={<Home/>}/>
       <Route path = "/" element={<Page404/>}/>
 

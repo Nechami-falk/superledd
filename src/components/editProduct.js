@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import{ useLocation } from "react-router-dom";
+import{useNavigate, useLocation } from "react-router-dom";
 import productOrderServices from '../services/productOrderService';
 import companyService from "../services/companyService";
 import categoryService from "../services/categoryService";
 import locationService from '../services/locationService';
 import { useForm } from "react-hook-form";
+import { toast } from 'react-toastify';
 
 function EditProduct() {
 
@@ -49,6 +50,8 @@ catch(ex){
 }
 }
 
+const navigate = useNavigate();
+
   const location = useLocation();
   const shadesLight = ['C.C.T', '4000k', '3000k', '6000k' ];
   const [product, setProduct] = useState();
@@ -62,13 +65,11 @@ catch(ex){
   const getProductDetails = async() =>{
     let prodId = location.state;
     try{
-      let details = await productOrderServices.getProductDetailsById(prodId);
+      let details = await productOrderServices.getProductById(prodId);
       setProduct(details.data);
       console.log(details.data);
-      reset({
-        name:product.name,
-        category:product.category
-      },{});
+      setPrice(details.data.price);
+      reset({});
     }
     catch(ex){
       console.log(ex);
@@ -80,7 +81,7 @@ catch(ex){
   const caculatePrice = (e) =>{
     console.log(e.target.value);
     let price=e.target.value;
-    if(price < 500){
+    if(price <= 500){
      let newPrice = parseFloat(price*1.8).toFixed(2);
      console.log('קטן מחמש מאות');
      setPrice(newPrice);
@@ -90,15 +91,31 @@ catch(ex){
       console.log('קטן מאלף ');
       setPrice(newPrice);
     }
-    if(price > 1000){
+    if(price >= 1000){
       let newPrice = parseFloat(price * 1.65).toFixed(2);
       console.log('גדול מאלף ');
       setPrice(newPrice);
     }
   }
 
-  const onSubmit=()=>{
-    console.log(onsubmit);
+  const onSubmit=async(data)=>{
+    console.log(data);
+    const newData = data;
+    newData.price = price;
+    newData._id = product._id;
+    console.log(newData);
+    try{
+      await productOrderServices.updateProductById(newData);
+      toast.success('המוצר עודכן בהצלחה!');
+      let numberOrder = {numberOrder: product.numberOrder};
+
+      console.log(numberOrder);
+      navigate('/showOrder', {state:numberOrder})
+    }
+    catch(ex){
+      setError('בעיה בעדכון המוצר');
+    }
+    
   }
 
   return (
@@ -134,7 +151,6 @@ catch(ex){
           <label className="form-label">חברה</label>
             <select className="form-select" defaultValue={product && product.company} name="company"{...register('company')}>
               {product && <option className="option-form text-end"  key={product.id}>{product.company}</option>}
-              <option>בחר</option>
               {companies && companies.map((comp) => (
             <option className="option-form text-end" key={comp.id} >{comp.companyName}</option>
               ))};
@@ -143,7 +159,6 @@ catch(ex){
             <label className="form-label">קטגוריה</label>
             <select className="form-select"  name="category" defaultValue={product && product.category} {...register('category')}>
               {product && <option className="option-form text-end"  key={product.id} >{product.category}</option>}
-              <option>בחר</option>
               {categories && categories.map((category) => (
             <option className="option-form text-end" key={category.id} >{category.categoryName}</option>
   
@@ -151,50 +166,49 @@ catch(ex){
             </select>
 
             <label className="form-label">מיקום</label>
-        <select className="form-select text-end"  name="location" defaultValue={product && product.location} {...register("location")}>
-          {product && <option className="option-form text-end"  key={product.id} >{product.location}</option>}
-          <option>בחר</option>
+        <select className="form-select text-end"  name="location"  {...register("location")}>
+          {product && <option className="option-form text-end"  key={product.id} value={product.location}>{product.location}</option>}
           {locations && locations.map((location) => (
           <option className="option-form text-end" key={location.id} >{location.locationName}</option>
             ))};
         </select>
 
           <label className="form-label">דגם</label>
-            <input className="form-control text-end"  type="text" /* defaultValue ={product && product.model} */ {...register('model')} />
+            <input className="form-control text-end"  type="text" name="model" defaultValue ={product && product.model} {...register('model')} />
             
           <label className="form-label">גוון אור</label>
-        <select className="form-select text-end" /* value={product && product.shadeLight} */ name="shadeLight" {...register("shadeLight")}>
+        <select className="form-select text-end" name="shadeLight" {...register("shadeLight")}>
           <option>בחר גוון</option>
              {shadesLight && shadesLight.map((shade, i) => (
-          <option className="option-form text-end" key={i} value={shade}>{shade}</option>
+          <option className="option-form text-end" key={i} defaultValue={product && product.shadeLight} value={shade}>{shade}</option>
             ))};
         </select>
 
           <label className="form-label">מק"ט</label>
-            <input className="form-control text-end" type="text" /* defaultValue={product && product.catalogNumber} */ {...register('catalogNumber')} />
+            <input className="form-control text-end" type="text" defaultValue={product && product.catalogNumber} {...register('catalogNumber')} />
           
           <label className="form-label">צבע</label>
-            <input className="form-control text-end"  type="text" /* defaultValue={ product && product.color} */ {...register('color')}/>
+            <input className="form-control text-end"  type="text" name="color" defaultValue={ product && product.color} {...register('color')}/>
           
             <label className="form-label">מחיר סוכן</label>
-            <input className="form-control text-end" onKeyUp={(e)=>caculatePrice(e)} type="text" defaultValue={ product && product.agentPrice} {...register('agentPrice')}/>        
+            <input className="form-control text-end" name="agentPrice" onKeyUp={(e)=>caculatePrice(e)} type="text" defaultValue={ product && product.agentPrice} {...register('agentPrice')}/>        
 
           <label className="form-label">מחיר</label>
-            <input className="form-control text-end"  type="text" defaultValue={ product ? product.price : price} {...register('price')}/>        
+            <input className="form-control text-end" name="price" type="text" defaultValue={price} {...register('price')}/>        
           
           {/* <label className="form-label">תמונה</label>
             <input className="form-control text-end" onInput={onChange} type="file" defaultValue={ product && product.image} onChange={handleFileChange}  {...register('image')}/>  */}
           
           <label className="form-label">כמות</label>
-          <input className="form-control text-end"  type="number" /* defaultValue={product && product.quantity} */ {...register('quantity')}/> 
+          <input className="form-control text-end"  type="number" name="quantity" defaultValue={product && product.quantity} {...register('quantity')}/> 
 
           <label className="form-label">הערות</label>
-            <input className="form-control text-end"  type="text" /* defaultValue={ product? product.remarks : ''} */ {...register('remarks')}/> 
+            <input className="form-control text-end"  type="text" name ="remarks" defaultValue={ product? product.remarks : ''} {...register('remarks')}/> 
           
         <h3 style={{color:"red"}}>{error && error}</h3>
 
         <div className="container col-lg-12 d-flex justify-content-around">
-        <button type="submit" className="btn btn-warning mt-3">הוסף מוצר</button>
+        <button type="submit" className="btn btn-warning mt-3">עדכן מוצר</button>
        {/*  <button className="btn btn-info mt-3" type="button" onClick={onCompletionOrder}>סיום הזמנה</button> */}
         
         

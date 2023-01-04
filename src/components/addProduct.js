@@ -137,7 +137,7 @@ const onSubmit = async(data)=> {
 const caculatePrice = (e) =>{
   console.log(e.target.value);
   let price=e.target.value;
-  if(price < 500){
+  if(price <= 500){
     let newPrice = parseFloat(price*1.8).toFixed(2);
    console.log('קטן מחמש מאות');
    setPrice(newPrice);
@@ -149,7 +149,7 @@ const caculatePrice = (e) =>{
     setPrice(newPrice);
     reset({price:newPrice})
   }
-  if(price > 1000){
+  if(price >= 1000){
     let newPrice = parseFloat(price*1.65).toFixed(2);
     console.log('גדול מאלף ');
     setPrice(newPrice);

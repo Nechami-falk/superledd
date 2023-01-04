@@ -11,6 +11,10 @@ export function getProductByStatus(status){
     return http.get(`${apiUrl.apiUrl}/productOrders/${status}`);
 }
 
+export function getProductById(productId){
+    return http.get(`${apiUrl.apiUrl}/productOrders/productId/${productId}`);
+}
+
 export function getCustomerOrder(customerId){
     return http.get(`${apiUrl.apiUrl}/productOrders/${customerId}`);
 }
@@ -20,6 +24,7 @@ export function getProductOrders(){
 }
 
 export function getOrderByNumberOrder(numberOrder){
+    console.log('number', numberOrder);
     return http.get(`${apiUrl.apiUrl}/productOrders/numberOrder/${numberOrder}`);
 }
 
@@ -32,6 +37,10 @@ export function deleteProdFromOrder(productId){
     console.log('333');
     return http.put(`${apiUrl.apiUrl}/productOrders/${productId}`)
 } */
+
+export function updateProductById(data){
+    return http.patch(`${apiUrl.apiUrl}/productOrders`, data);
+}
 
 export function updateStatusToProduct(id, status, date){
     console.log('101010');
@@ -51,7 +60,9 @@ const service = {
     getOrderByNumberOrder,
     deleteProdFromOrder,
    /*  editProductToOrder, */
-    updateStatusToProduct
+    updateStatusToProduct,
+    getProductById,
+    updateProductById,
 }
 
 export default service;

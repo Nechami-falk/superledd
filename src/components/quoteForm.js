@@ -70,6 +70,9 @@ const deleteOrder = async(quote)=>{
   return (
     <React.Fragment>
     <div className="container col-lg-12 mt-4 text-end">
+  
+      <h1 className='text-center'>הצעות מחיר</h1>
+      
       <div className="row">
         {qoutesPrice && qoutesPrice.map((quote)=>(
           <React.Fragment>
