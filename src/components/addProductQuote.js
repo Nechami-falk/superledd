@@ -245,7 +245,7 @@ const onChange = (e)=>{
   numberOrder:orderDetails.numberOrder,
   status:orderDetails.status
  }
-  data.image = `http://localhost:8182/${catalogNumber}.png`;
+  data.image = `http://superled-api.onrender.com/uploads/${orderDetails.name}.png`;
    let details = {
      ...newOrderDetails,
      ...data,
