@@ -285,7 +285,7 @@ const onChange = (e)=>{
     setImage(data.data.image);
     console.log(data.data.image);
     setCatalogNumber(data.data.catalogNumber);
-    reset({});  
+    reset({});
   }
     catch(ex){
       if(ex){
@@ -377,7 +377,7 @@ const onChange = (e)=>{
               ))};
             </select>
           
-            <label className="form-label">קטגוריה</label>
+          <label className="form-label">קטגוריה</label>
             <select className="form-select"  name="category" {...register('category')}>
               {currentProd && <option className="option-form text-end"  key={currentProd.id} selected defaultValue={currentProd.category}>{currentProd.category}</option>}
               <option>בחר</option>
@@ -387,25 +387,26 @@ const onChange = (e)=>{
               ))};
             </select>
 
-            <label className="form-label">מיקום</label>
-        <select className="form-select text-end"  name="location" {...register("location")}>
-          {currentProd && <option className="option-form text-end"  key={currentProd.id} selected defaultValue={currentProd.location}>{currentProd.location}</option>}
-          <option>בחר</option>
-          {locations && locations.map((location) => (
-          <option className="option-form text-end" key={location.id} defaultValue={ currentProd && currentProd.location}>{location.locationName}</option>
-            ))};
-        </select>
-
-          <label className="form-label">דגם</label>
-            <input className="form-control text-end"  type="text" defaultValue ={currentProd && currentProd.model} {...register('model')} />
+        <label className="form-label">מיקום</label>
+          <select className="form-select text-end"  name="location" {...register("location")}>
+            {currentProd && <option className="option-form text-end"  key={currentProd.id} selected defaultValue={currentProd.location}>{currentProd.location}</option>}
+            <option>בחר</option>
+            {locations && locations.map((location) => (
+            <option className="option-form text-end" key={location.id} defaultValue={ currentProd && currentProd.location}>{location.locationName}</option>
+              ))};
+          </select>
             
-          <label className="form-label">גוון אור</label>
-        <select className="form-select text-end"  name="shadeLight" {...register("shadeLight")}>
-          <option>בחר גוון</option>
-             {shadesLight && shadesLight.map((shade, i) => (
-          <option className="option-form text-end" key={i} value={shade}>{shade}</option>
-            ))};
-        </select>
+        <label className="form-label">גוון אור</label>
+          <select className="form-select text-end"  name="shadeLight" {...register("shadeLight")}>
+            {currentProd && <option className="option-form text-end"  key={currentProd.shadeLight} selected defaultValue={currentProd.shadeLight}>{currentProd.shadeLight}</option>}
+            <option>בחר גוון</option>
+              {shadesLight && shadesLight.map((shade, i) => (
+            <option className="option-form text-end" key={i} defaultValue={currentProd && currentProd.shadeLight}>{shade}</option>
+              ))}; 
+          </select>
+
+        <label className="form-label">דגם</label>
+            <input className="form-control text-end"  type="text" defaultValue ={currentProd && currentProd.model} {...register('model')} />
 
           <label className="form-label">מק"ט</label>
             <input className="form-control text-end" type="text" value={catalogNumber} {...register('catalogNumber')} />

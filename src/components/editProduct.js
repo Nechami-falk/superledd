@@ -178,7 +178,6 @@ const navigate = useNavigate();
             
           <label className="form-label">גוון אור</label>
         <select className="form-select text-end" name="shadeLight" {...register("shadeLight")}>
-          <option>בחר גוון</option>
              {shadesLight && shadesLight.map((shade, i) => (
           <option className="option-form text-end" key={i} defaultValue={product && product.shadeLight} value={shade}>{shade}</option>
             ))};
