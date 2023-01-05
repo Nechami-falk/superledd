@@ -199,7 +199,7 @@ const navigate = useNavigate();
             <input className="form-control text-end" onInput={onChange} type="file" defaultValue={ product && product.image} onChange={handleFileChange}  {...register('image')}/>  */}
           
           <label className="form-label">כמות</label>
-          <input className="form-control text-end"  type="number" name="quantity" defaultValue={product && product.quantity} {...register('quantity')}/> 
+          <input className="form-control text-end"  type="number" step="any" name="quantity" defaultValue={product && product.quantity} {...register('quantity')}/> 
 
           <label className="form-label">הערות</label>
             <input className="form-control text-end"  type="text" name ="remarks" defaultValue={ product? product.remarks : ''} {...register('remarks')}/> 
