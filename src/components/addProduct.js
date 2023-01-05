@@ -100,16 +100,14 @@ const onChange = (e)=>{
   setImage(img);
   console.log(img);
 }
-/* const getPrice = (e) => {
-  console.log(e);
-} */
+
+
+
 const onSubmit = async(data)=> {
-  let num = Date.now();
-  /* image.number = num;
-  console.log(image); */
+
   const newData = {
     ...data,
-    imageNum:num,
+    imageNum:Date.now(),
   }
   console.log(newData);
   console.log(image);

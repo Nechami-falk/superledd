@@ -134,6 +134,7 @@ const onChange = (e)=>{
   console.log(img);
 }
 
+const numImg = Date.now();
 
   const addProductToDB = async(data) => {
     console.log(data);
@@ -147,7 +148,8 @@ const onChange = (e)=>{
       agentPrice:data.agentPrice,
       category:data.category,
       remarks:data.remarks,
-      location:data.location
+      location:data.location,
+      imageNum:numImg,
     }
     console.log(newData);
     console.log(image);
@@ -245,11 +247,10 @@ const onChange = (e)=>{
   numberOrder:orderDetails.numberOrder,
   status:orderDetails.status
  }
-  data.image = `http://superled-api.onrender.com/uploads/${orderDetails.name}.png`;
+ data.image = `${numImg}.png`;
    let details = {
      ...newOrderDetails,
      ...data,
-     
     }
   console.log(details);
    try{

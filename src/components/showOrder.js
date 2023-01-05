@@ -4,7 +4,8 @@ import{useLocation } from "react-router-dom";
 import { toast } from 'react-toastify';
 import productOrderService from '../services/productOrderService';
 import PDFFile from './PDFFile';
-import urlImg from '../config.json';
+import  urlImg from '../config.json';
+
 /* import { pdf, PDFDownloadLink } from '@react-pdf/renderer';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable'; */
