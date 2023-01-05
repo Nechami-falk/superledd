@@ -11,7 +11,6 @@ import locationService from '../services/locationService';
 function AddProductQuote() {
   
     useEffect( () => {
-      
       getProducts();
       getCompanies();
       getCategories();
@@ -20,6 +19,24 @@ function AddProductQuote() {
       getCatalogNumber();
 
     }, []);
+
+    const navigate = useNavigate();
+
+  const shadesLight = ['C.C.T', '4000k', '3000k', '6000k' ];
+
+  const [locations, setLocations ] = useState();
+  const [orderDetails, setOrderDetails] = useState();
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState();
+  const [categories, setCategories] = useState([]);
+  const [companies, setCompanies] = useState([]);
+  const [currentProd, setCurrentProd] = useState();
+  const [image, setImage] = useState('');
+  const [price, setPrice] = useState();
+  const [productName,setProductName] = useState();
+  const [quantity, setQuantity] = useState(1);
+  const [catalogNumber, setCatalogNumber] = useState();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({ });
 
     const getProducts = async() =>{
       console.log();
@@ -81,23 +98,7 @@ function AddProductQuote() {
     console.log(ex.response);
   }
 }
-  const navigate = useNavigate();
-
-  const shadesLight = ['C.C.T', '4000k', '3000k', '6000k' ];
-
-  const [locations, setLocations ] = useState();
-  const [orderDetails, setOrderDetails] = useState();
-  const [products, setProducts] = useState([]);
-  const [error, setError] = useState();
-  const [categories, setCategories] = useState([]);
-  const [companies, setCompanies] = useState([]);
-  const [currentProd, setCurrentProd] = useState();
-  const [image, setImage] = useState('');
-  const [price, setPrice] = useState();
-  const [productName,setProductName] = useState();
-  const [quantity, setQuantity] = useState(1);
-  const [catalogNumber, setCatalogNumber] = useState();
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({ });
+  
   
   function handleFileChange(e) {
     const img = {
@@ -134,7 +135,7 @@ const onChange = (e)=>{
   console.log(img);
 }
 
-const numImg = currentProd ? image : Date.now();
+
 
   const addProductToDB = async(data) => {
     console.log(data);
@@ -149,7 +150,7 @@ const numImg = currentProd ? image : Date.now();
       category:data.category,
       remarks:data.remarks,
       location:data.location,
-      imageNum:numImg,
+      imageNum:Date.now(),
     }
     console.log(newData);
     console.log(image);
@@ -226,7 +227,7 @@ const numImg = currentProd ? image : Date.now();
 }*/
 
  const onSubmit = async(data) => {
-    
+  console.log(data);
    if(data.category === 'בחר'){
      data.category = '';
    }
@@ -236,8 +237,8 @@ const numImg = currentProd ? image : Date.now();
    if(data.location === 'בחר'){
      data.location = '';
    }
-   addProductToDB(data);
-   console.log(data);
+  addProductToDB(data);
+  console.log(data);
  console.log('123'); 
  let newOrderDetails = {
   customerName:orderDetails.customerName,
@@ -247,7 +248,9 @@ const numImg = currentProd ? image : Date.now();
   numberOrder:orderDetails.numberOrder,
   status:orderDetails.status
  }
- data.image = `${numImg}.png`;
+ console.log(image);
+
+ data.image= currentProd.image;
    let details = {
      ...newOrderDetails,
      ...data,
@@ -262,7 +265,7 @@ const numImg = currentProd ? image : Date.now();
 
    }
    catch(ex){
-     if(ex.response.status === 400){
+     if(ex){
        setError('חסרים פרטים להוספת המוצר!')
      }
      console.log(ex.response);
@@ -283,7 +286,7 @@ const numImg = currentProd ? image : Date.now();
     let data = await productService.getProductByName(name);
     console.log(data);
     setCurrentProd(data.data);
-    setImage(data.data.image);
+   /*  setImage(data.data.image); */
     console.log(data.data.image);
     setCatalogNumber(data.data.catalogNumber);
     reset({});
@@ -293,7 +296,7 @@ const numImg = currentProd ? image : Date.now();
         console.log('no');
         getCatalogNumber();
         setCurrentProd();
-        setImage();
+        
       }
       console.log(ex);
     }
@@ -309,12 +312,12 @@ const numImg = currentProd ? image : Date.now();
     navigate('/showOrder', {state:orderDetails});   
   }
 
-  const handleChange = (event) => {
+  /* const handleChange = (event) => {
     console.log('3333');
     if (!event.nativeEvent.inputType) {
       event.target.blur();
     }
-  };
+  }; */
 
   const caculatePrice = (e) =>{
     console.log(e.target.value);
@@ -355,8 +358,8 @@ const numImg = currentProd ? image : Date.now();
       className="form-control text-end"
         type="input"
         list="optionsList"
-        onChange={handleChange} 
-        onClick={onSelect}
+       /*  onChange={handleChange}  */
+        /* onClick={onSelect} */
         /* onFocus={clear} */
         /* onSelect={onSelect} */
         {...register('name')}
@@ -422,7 +425,7 @@ const numImg = currentProd ? image : Date.now();
             <input className="form-control text-end"  type="text" name='price' defaultValue={ currentProd ? currentProd.price : price} {...register('price')}/>        
           
           <label className="form-label">תמונה</label>
-            <input className="form-control text-end" onInput={onChange} type="file" defaultValue={ currentProd && currentProd.image} onChange={handleFileChange}  {...register('image')}/> 
+            <input className="form-control text-end" onInput={onChange} type="file" name="image" defaultValue={ currentProd && currentProd.image} onChange={handleFileChange}  {...register('image')}/> 
           
           <label className="form-label">כמות</label>
           <input className="form-control text-end"  type="number" step="any" defaultValue={quantity} {...register('quantity')}/> 
