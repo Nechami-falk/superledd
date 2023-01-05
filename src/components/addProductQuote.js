@@ -134,7 +134,7 @@ const onChange = (e)=>{
   console.log(img);
 }
 
-const numImg = Date.now();
+const numImg = currentProd ? image : Date.now();
 
   const addProductToDB = async(data) => {
     console.log(data);
