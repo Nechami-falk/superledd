@@ -9,9 +9,11 @@ import customerService from '../services/customerService';
 
 function AddCustomer(props) {
 
+
+
     useEffect( () => {
         getDate();
-    },[])
+    },[]);
 
     const getDate = () =>{
         let curr = new Date();
@@ -26,11 +28,11 @@ function AddCustomer(props) {
         }
 
     
-  
+        const [tdate, settDate]= useState();
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm({});
     
-    const [tdate, settDate]= useState();
+    
     const [customer, setCustomer] = useState('name');
 
     

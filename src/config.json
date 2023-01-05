@@ -1,3 +1,4 @@
 {
-    "apiUrl": "https://superled-api.onrender.com/api"
+    "apiUrl": "http://localhost:8182/api",
+    "urlImg": "http://localhost:8182"
 }

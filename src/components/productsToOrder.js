@@ -1,7 +1,8 @@
 import React, {useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import companyServies from '../services/companyService';
-import productOrderService from '../services/productOrderService'
+import productOrderService from '../services/productOrderService';
+import urlImg from '../config.json';
 
 function ProductToOrder() {
 
@@ -113,7 +114,7 @@ function ProductToOrder() {
       <td>{prod.customerName}</td>
       <td>{prod.company}</td>
       <td>{prod.color}</td>
-      <td style={{width:"8%"}}><img style={{width:"100%"}} src={`https://superled-api.onrender.com/${prod.name}.png`} alt={prod.name} className="card-img-top"/></td>
+      <td style={{width:"8%"}}><img style={{width:"100%"}} src={`${urlImg.urlImg}/uploads/${prod.image}`} alt={prod.name} className="card-img-top"/></td>
       <td>{prod.quantity}</td>
       <td>{prod.price}</td>
       <td>{(prod.price)*(prod.quantity)}</td>

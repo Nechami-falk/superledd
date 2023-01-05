@@ -4,6 +4,7 @@ import{useLocation } from "react-router-dom";
 import { toast } from 'react-toastify';
 import productOrderService from '../services/productOrderService';
 import PDFFile from './PDFFile';
+import urlImg from '../config.json';
 /* import { pdf, PDFDownloadLink } from '@react-pdf/renderer';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable'; */
@@ -43,7 +44,8 @@ function ShowOrder() {
     let data = await productOrderService.getOrderByNumberOrder(order.numberOrder);
     console.log(data.data);
     setProducts(data.data);
-    calculationPayment(data.data)
+    calculationPayment(data.data);
+    
   }
 
 /*   const onProductToOrder = async(id) => {
@@ -175,7 +177,7 @@ function ShowOrder() {
       <td>{prod.shadeLight}</td>
       <td>{prod.location}</td>
       <td style={{width:"8%"}}>
-      <img style={{width:"100%"}} src={`https:superled-api.onrender.com/uploads/${prod.name}.png`} alt={prod.name} /* className="card-img-top" *//>
+      <img style={{width:"100%"}} src={`${urlImg.urlImg}/uploads/${prod.image}`} alt={prod.name} /* className="card-img-top" *//>
       </td>
       <td>{prod.quantity}</td>
       <td>{prod.price}</td>

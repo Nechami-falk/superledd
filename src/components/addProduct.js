@@ -104,8 +104,12 @@ const onChange = (e)=>{
   console.log(e);
 } */
 const onSubmit = async(data)=> {
+  let num = Date.now();
+  /* image.number = num;
+  console.log(image); */
   const newData = {
     ...data,
+    imageNum:num,
   }
   console.log(newData);
   console.log(image);

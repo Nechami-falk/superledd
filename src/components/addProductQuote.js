@@ -434,7 +434,7 @@ const onChange = (e)=>{
         <div className="container col-lg-12 d-flex justify-content-around">
         <button type="submit" className="btn btn-warning mt-3">הוסף מוצר</button>
         <button className="btn btn-info mt-3" type="button" onClick={onCompletionOrder}>סיום הזמנה</button>
-{/*         <button className = "btn btn-success mt-3" type="button" onClick={onAddProduct}>הוסף מוצר </button> */}
+{/*<button className = "btn btn-success mt-3" type="button" onClick={onAddProduct}>הוסף מוצר </button> */}
         
         
         </div>
