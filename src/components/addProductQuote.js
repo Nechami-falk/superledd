@@ -425,7 +425,7 @@ const numImg = Date.now();
             <input className="form-control text-end" onInput={onChange} type="file" defaultValue={ currentProd && currentProd.image} onChange={handleFileChange}  {...register('image')}/> 
           
           <label className="form-label">כמות</label>
-          <input className="form-control text-end"  type="number" defaultValue={quantity} {...register('quantity')}/> 
+          <input className="form-control text-end"  type="number" step="any" defaultValue={quantity} {...register('quantity')}/> 
 
           <label className="form-label">הערות</label>
             <input className="form-control text-end"  type="text" defaultValue={ currentProd? currentProd.remarks : ''} {...register('remarks')}/> 
