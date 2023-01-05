@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
 import productOrderService from '../services/productOrderService';
 import lodash from 'lodash';
+import urlImg from '../config.json';
+
+
 
 function DownloadOrder() {
 
@@ -84,7 +87,7 @@ function DownloadOrder() {
         <td>{prod.shadeLight}</td>
         <td>{prod.location}</td>
         <td style={{width:"8%"}}>
-        <img style={{width:"100%"}} src={`http://localhost:8182/${prod.catalogNumber}.png`} alt={prod.name} /* className="card-img-top" *//>
+        <img style={{width:"100%"}} src={`${urlImg.urlImg}/uploads/${prod.image}`} alt={prod.name} /* className="card-img-top" *//>
         </td>
         <td>{prod.quantity}</td>
         <td>{prod.price}</td>
