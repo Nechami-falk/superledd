@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import orderService from '../services/orderService';
-import {Link, useNavigate} from 'react-router-dom';
+import {OrderService} from '../services/orderService';
+import {useNavigate} from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert'; 
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
@@ -18,7 +18,7 @@ function QuoteForm() {
   const getAllQuotePrices = async()=>{
     console.log('12345');
     try{
-  let quotes = await orderService.getQuotePriceOrders();
+  let quotes = await OrderService.getQuotePriceOrders();
   setQuotesPrice(quotes.data);
   console.log(quotes.data);
   }
@@ -49,7 +49,7 @@ const onDeleteOrder = (quote)=>{
 };
 
 const deleteOrder = async(quote)=>{
-  await orderService.deleteOrder(quote._id);
+  await OrderService.deleteOrder(quote._id);
 }
   /* const formatDate = (tdate) =>{
     let curr = new Date(tdate);

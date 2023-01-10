@@ -1,25 +1,43 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState, useCallback} from 'react';
 import lodash from 'lodash';
-import{useLocation } from "react-router-dom";
+import {useLocation } from "react-router-dom";
 import { toast } from 'react-toastify';
-import productOrderService from '../services/productOrderService';
-import PDFFile from './PDFFile';
+import {ProductOrderService} from '../services/productOrderService';
 import  urlImg from '../config.json';
-
-/* import { pdf, PDFDownloadLink } from '@react-pdf/renderer';
-import { jsPDF } from "jspdf";
-import 'jspdf-autotable'; */
 import { useNavigate } from "react-router-dom";
 
 
 
 function ShowOrder() {
+  let location = useLocation();
+  const navigate = useNavigate();
+  const [order, setOrder ] = useState();
+  const [products, setProducts] = useState([]);
+  const [totalPayment, setTotalPayment] = useState();
+  const [isShown, setIsShown] = useState(false);
+  /* const [status, setStatus] = useState(); */
+
+
+  const getOrderDetails = useCallback(
+  async () =>{
+    console.log(location.state);
+    setOrder(location.state);
+    let order= location.state;
+    console.log(order);
+    console.log(order.numberOrder);
+    let data = await ProductOrderService.getOrderByNumberOrder(order.numberOrder);
+    console.log(data.data);
+    setProducts(data.data);
+    calculationPayment(data.data);
+  }
+  ,[location.state]);
+
 
   useEffect( () => {
     getOrderDetails();
     /* calculationPayment(products); */
     console.log('useEffect');
-  },[]);
+  },[getOrderDetails]);
 
   const statuses = [{value:'ordered', name:'הוזמן'}, 
                     {value:'toOrder', name:'להזמנה'},
@@ -27,27 +45,7 @@ function ShowOrder() {
                     {value:'provided',name:'סופק ללקוח'},
                     {value:'offerPrice', name:'הצעת מחיר'}];
 
-  let location = useLocation();
-  const navigate = useNavigate();
-  const [order, setOrder ] = useState();
-  const [products, setProducts] = useState([]);
-  const [totalPayment, setTotalPayment] = useState();
-  const [isShown, setIsShown] = useState(false);
-  const [status, setStatus] = useState();
-
-
-  const getOrderDetails = async () =>{
-    console.log(location.state);
-    setOrder(location.state);
-    let order= location.state;
-    console.log(order);
-    console.log(order.numberOrder);
-    let data = await productOrderService.getOrderByNumberOrder(order.numberOrder);
-    console.log(data.data);
-    setProducts(data.data);
-    calculationPayment(data.data);
-    
-  }
+  
 
 /*   const onProductToOrder = async(id) => {
     console.log('2222');
@@ -70,7 +68,7 @@ function ShowOrder() {
     console.log(id);
     let productId = id;
     try{
-      await productOrderService.deleteProdFromOrder(productId);
+      await ProductOrderService.deleteProdFromOrder(productId);
       toast.success('המוצר נמחק מההזמנה!');
       getOrderDetails();
     }
@@ -100,34 +98,6 @@ function ShowOrder() {
     window.print();
   }
   
- /*  function calculatToPay(num1, num2){
-    return num1*num2
-  } */
- /*  let a= [];
-  var body = [];
-  let n =[];
-  function generatePdf() {
-    var head = [['name', 'company', 'imag', 'price']]
-
-    products && products.forEach(element => {
-      
-      a.push(element);
-      console.log(a);
-  });
-    
-    a.forEach(e=>{
-     let n = Object.values(e);
-     console.log(n);
-     body.push(n);
-     console.log(body);
-    });
-    
-    
-    var doc = new jsPDF()
-    doc.autoTable({ head: head, body: body })
-    doc.output('dataurlnewwindow')
-  } */
-
   const onAddProduct = async()=>{
     console.log('lll');
     navigate('/addProductQuote', {state:order});
@@ -138,7 +108,7 @@ function ShowOrder() {
     const status = event.target.value;
     setIsShown(current => !current);
     try{
-      await productOrderService.updateStatusToProduct(productId, status)
+      await ProductOrderService.updateStatusToProduct(productId, status)
       getOrderDetails();
     }
     catch(ex){
@@ -178,7 +148,7 @@ function ShowOrder() {
       <td>{prod.shadeLight}</td>
       <td>{prod.location}</td>
       <td style={{width:"8%"}}>
-      <img style={{width:"100%"}} src={`${urlImg.urlImg}/uploads/${prod.image}`} alt={prod.name} /* className="card-img-top" *//>
+      <img style={{width:"100%"}} src={`${urlImg.urlImg}/uploads/${prod.image}.png`} alt={prod.name} /* className="card-img-top" *//>
       </td>
       <td>{prod.quantity}</td>
       <td>{prod.price}</td>

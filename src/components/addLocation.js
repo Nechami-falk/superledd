@@ -2,7 +2,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import locationService from '../services/locationService';
+import {LocationService} from '../services/locationService';
 
 function AddLocation() {
 
@@ -11,7 +11,7 @@ function AddLocation() {
     const onSubmit = async (data) => {
         console.log(data);
         try{
-            await locationService.addLocation(data);
+            await LocationService.addLocation(data);
             toast.success('המיקום נוספה בהצלחה')
             
         }

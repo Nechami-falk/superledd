@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useLocation } from "react-router-dom";
-import productOrderService from '../services/productOrderService';
+import {ProductOrderService} from '../services/productOrderService';
 import lodash from 'lodash';
 import urlImg from '../config.json';
 
@@ -8,31 +8,13 @@ import urlImg from '../config.json';
 
 function DownloadOrder() {
 
-    useEffect( () => {
-      console.log('555');
-        getOrderDetails();      
-      },[]);
-
   let location = useLocation();
   const [order, setOrder ] = useState();
   const [products, setProducts] = useState([]);
   const [totalPayment, setTotalPayment] = useState();
 
-  const getOrderDetails = async () =>{
-    console.log(location.state);
-    setOrder(location.state);
-    let order= location.state;
-    console.log(order);
-    console.log(order.numberOrder);
-    let data = await productOrderService.getOrderByNumberOrder(order.numberOrder);
-    console.log(data.data);
-    setProducts(data.data);
-    calculationPayment(data.data);
-    
-  }
-
-  const calculationPayment = (data) =>{
-
+  const calculationPayment = useCallback(
+    (data) =>{
     console.log('rrrr');
     console.log(data);
     const newArray = [];
@@ -51,7 +33,31 @@ function DownloadOrder() {
     }, 3000);
     
     
+  },[])
+
+  const getOrderDetails = useCallback(
+    async () =>{
+    console.log(location.state);
+    setOrder(location.state);
+    let order= location.state;
+    console.log(order);
+    console.log(order.numberOrder);
+    let data = await ProductOrderService.getOrderByNumberOrder(order.numberOrder);
+    console.log(data.data);
+    setProducts(data.data);
+    calculationPayment(data.data);
+    
   }
+  ,[calculationPayment, location.state])
+
+    useEffect( () => {
+      console.log('555');
+        getOrderDetails();      
+      },[getOrderDetails]);
+
+  
+  
+  
 
   function downloadPDFWithBrowserPrint() {
     window.print();

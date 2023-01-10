@@ -1,6 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
-import employeeService from '../services/employeeService';
+import {EmployeeService} from '../services/employeeService';
 import {toast} from 'react-toastify'; 
 
 function AddEmployee() {
@@ -10,7 +10,7 @@ function AddEmployee() {
     const onSubmit = async (data) => {
         console.log(data);
         try{
-            await employeeService.addEmployee(data);
+            await EmployeeService.addEmployee(data);
             reset();
             toast.success('העובדת נוספה בהצלחה!');
           

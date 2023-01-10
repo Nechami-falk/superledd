@@ -1,24 +1,19 @@
 import http from "./httpService";
 import apiUrl  from '../config.json';
 
+export class QuotePriceService{
 
-export function addQuotePrice(data){
-    return http.post(`${apiUrl.apiUrl}/quotePrices`, data);
+    static addQuotePrice(data){
+        return http.post(`${apiUrl.apiUrl}/quotePrices`, data);
+    }
+
+    static getQuotePrices(){
+        console.log('11');
+        return http.get(`${apiUrl.apiUrl}/quotePrices`);
+    }
+
+    static getBigOrderNumber(){
+        return http.get(`${apiUrl.apiUrl}/quotePrices/bigOrderNumber`);
+    }
 }
 
-export function getQuotePrices(){
-    console.log('11');
-    return http.get(`${apiUrl.apiUrl}/quotePrices`);
-}
-
-export function getBigOrderNumber(){
-    return http.get(`${apiUrl.apiUrl}/quotePrices/bigOrderNumber`);
-}
-
-const service = {
-    addQuotePrice,
-    getQuotePrices,
-    getBigOrderNumber
-}
-
-export default service;

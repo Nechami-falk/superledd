@@ -1,24 +1,55 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import{useNavigate, useLocation } from "react-router-dom";
-import productOrderServices from '../services/productOrderService';
-import companyService from "../services/companyService";
-import categoryService from "../services/categoryService";
-import locationService from '../services/locationService';
+import {ProductOrderService} from '../services/productOrderService';
+import {CompanyService} from "../services/companyService";
+import {CategoryService} from "../services/categoryService";
+import {LocationService} from '../services/locationService';
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
 
 function EditProduct() {
+
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  const shadesLight = ['C.C.T', '4000k', '3000k', '6000k' ];
+  const [product, setProduct] = useState();
+  const [image, setImage] = useState();
+  const [price, setPrice] = useState();
+  const [categories, setCategories] = useState([]);
+  const [companies, setCompanies] = useState([]);
+  const [locations, setLocations ] = useState();
+  const [error, setError] = useState();
+  const { register, handleSubmit, reset } = useForm({ });
+  
+
+  const getProductDetails = useCallback(
+   async() =>{
+    let prodId = location.state;
+    try{
+      let details = await ProductOrderService.getProductById(prodId);
+      setProduct(details.data);
+      console.log(details.data);
+      setPrice(details.data.price);
+      reset({});
+    }
+    catch(ex){
+      console.log(ex);
+    }
+  },[location.state, reset]);
+
+
 
   useEffect(() => {
     getProductDetails();
     getCompanies();
     getCategories();
     getLocations();
-  }, []);
+  }, [getProductDetails]);
 
   const getCompanies = async ()=>{
     try{
-    let data = await companyService.getCompany();
+    let data = await CompanyService.getCompany();
     let comp = data;
     setCompanies(comp.data);
   }
@@ -30,7 +61,7 @@ function EditProduct() {
 
 const getLocations = async ()=>{
   try{
-    let data = await locationService.getLocations();
+    let data = await LocationService.getLocations();
     setLocations(data.data);
     console.log(data.data);
   }
@@ -41,7 +72,7 @@ const getLocations = async ()=>{
 
 const getCategories = async () =>{
   try{
-  let data = await categoryService.getCategory();
+  let data = await CategoryService.getCategory();
   let categoriesData =data;
   setCategories(categoriesData.data);
 }
@@ -50,33 +81,8 @@ catch(ex){
 }
 }
 
-const navigate = useNavigate();
 
-  const location = useLocation();
-  const shadesLight = ['C.C.T', '4000k', '3000k', '6000k' ];
-  const [product, setProduct] = useState();
-  const [price, setPrice] = useState();
-  const [categories, setCategories] = useState([]);
-  const [companies, setCompanies] = useState([]);
-  const [locations, setLocations ] = useState();
-  const [error, setError] = useState();
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({ });
   
-  const getProductDetails = async() =>{
-    let prodId = location.state;
-    try{
-      let details = await productOrderServices.getProductById(prodId);
-      setProduct(details.data);
-      console.log(details.data);
-      setPrice(details.data.price);
-      reset({});
-    }
-    catch(ex){
-      console.log(ex);
-    }
-  }
-
-
   
   const caculatePrice = (e) =>{
     console.log(e.target.value);
@@ -105,7 +111,7 @@ const navigate = useNavigate();
     newData._id = product._id;
     console.log(newData);
     try{
-      await productOrderServices.updateProductById(newData);
+      await ProductOrderService.updateProductById(newData);
       toast.success('המוצר עודכן בהצלחה!');
       let numberOrder = {numberOrder: product.numberOrder};
 
@@ -116,6 +122,21 @@ const navigate = useNavigate();
       setError('בעיה בעדכון המוצר');
     }
     
+  }
+
+  function handleFileChange(e) {
+    const img = {
+      data: e.target.files[0],
+    };
+    console.log(img);
+    setImage(img);
+  }
+
+  const onChange = (e)=>{
+    console.log('imageeeee');
+    const img =e.target.files[0];
+    setImage(img);
+    console.log(img);
   }
 
   return (
@@ -195,8 +216,8 @@ const navigate = useNavigate();
           <label className="form-label">מחיר</label>
             <input className="form-control text-end" name="price" type="text" defaultValue={price} {...register('price')}/>        
           
-          {/* <label className="form-label">תמונה</label>
-            <input className="form-control text-end" onInput={onChange} type="file" defaultValue={ product && product.image} onChange={handleFileChange}  {...register('image')}/>  */}
+          <label className="form-label">תמונה</label>
+            <input className="form-control text-end" onInput={onChange} type="file" defaultValue={ product && product.image} onChange={handleFileChange}  {...register('image')}/>
           
           <label className="form-label">כמות</label>
           <input className="form-control text-end"  type="number" step="any" name="quantity" defaultValue={product && product.quantity} {...register('quantity')}/> 

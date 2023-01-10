@@ -1,117 +1,66 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useMemo, useCallback} from "react";
 import { useForm } from "react-hook-form";
-import companyService from "../services/companyService";
-import categoryService from "../services/categoryService";
-import productService from "../services/productService";
-import productOrderService from "../services/productOrderService";
-import{ useLocation, useNavigate } from "react-router-dom";
+import {ProductService} from "../services/productService";
+import {ProductOrderService} from "../services/productOrderService";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import locationService from '../services/locationService';
+import {useGetStaticData} from '../hooks/staticData';
 
 function AddProductQuote() {
+
+  const navigate = useNavigate();
+  const location = useLocation();
   
-    useEffect( () => {
-      getProducts();
-      getCompanies();
-      getCategories();
-      getOrderDetails();
-      getLocations();
-      getCatalogNumber();
-
-    }, []);
-
-    const navigate = useNavigate();
-
-  const shadesLight = ['C.C.T', '4000k', '3000k', '6000k' ];
-
-  const [locations, setLocations ] = useState();
   const [orderDetails, setOrderDetails] = useState();
   const [products, setProducts] = useState([]);
   const [error, setError] = useState();
-  const [categories, setCategories] = useState([]);
-  const [companies, setCompanies] = useState([]);
   const [currentProd, setCurrentProd] = useState();
   const [image, setImage] = useState('');
   const [price, setPrice] = useState();
+  const [numOfImage, setNumOfImage] =useState();
   const [productName,setProductName] = useState();
-  const [quantity, setQuantity] = useState(1);
+/*   const [quantity, setQuantity] = useState(1); */
   const [catalogNumber, setCatalogNumber] = useState();
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({ });
+  const { register, handleSubmit, reset } = useForm({ });
+  
+  /* const getOrderDetails= () =>{
+    console.log('ggg');
+    console.log(location.state);
+    setOrderDetails(location.state);
+} */
 
-    const getProducts = async() =>{
-      console.log();
-      try{
-      let data = await productService.getProducts();
-      setProducts(data.data);
-      console.log(data.data);
-    }
-      catch(ex){
-      console.log(ex.response);
-    }
-  }
-
-  let location = useLocation();
-
-    const getOrderDetails= () =>{
-      console.log('ggg');
-      console.log(location.state);
-      setOrderDetails(location.state);
-    }
-
-  /*   const getDate = () =>{
-    let curr = new Date();
-    curr.setDate(curr.getDate());
-    var date = curr.toISOString().substring(0,10);
-    settDate(date);
-    } */
-
-    const getCompanies = async ()=>{
-      try{
-      let data = await companyService.getCompany();
-      let comp = data;
-      setCompanies(comp.data);
-    }
-    catch(ex){
-      console.log(ex.response);
-    }
-    
-  }
-
-  const getLocations = async ()=>{
-    try{
-      let data = await locationService.getLocations();
-      setLocations(data.data);
-      console.log(data.data);
-    }
-    catch(ex){
-      console.log(ex);
-    }
-  }
-
-  const getCategories = async () =>{
-    try{
-    let data = await categoryService.getCategory();
-    let categoriesData =data;
-    setCategories(categoriesData.data);
-  }
-  catch(ex){
-    console.log(ex.response);
-  }
+const getProducts = async() =>{
+  console.log();
+  try{
+  const data = await ProductService.getProducts();
+  setProducts(data.data);
+  console.log(data.data);
 }
-  
-  
-  function handleFileChange(e) {
-    const img = {
-      data: e.target.files[0],
-    };
-    console.log(img);
-    setImage(img);
-  }
+catch(ex){
+  console.log(ex.response);
+}
+}
 
-  const getCatalogNumber = async() =>{
+  useEffect(() => {
+    setOrderDetails(location.state);
+  }, [location.state]);
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+ useEffect(() => {
+    const num = Date.now().toString();
+    console.log('numOfImage',num);
+    setNumOfImage(num);
+  }, [])
+  
+
+  const getCatalogNumber = useCallback(
+    async() =>{
     console.log('11111');
     try{
-    let newCatalogNumber = await productService.getCatalogNumber();
+    let newCatalogNumber = await ProductService.getCatalogNumber();
     newCatalogNumber = (newCatalogNumber.data[0].catalogNumber)+1;
     console.log(newCatalogNumber);
     setCatalogNumber(newCatalogNumber);
@@ -126,7 +75,41 @@ function AddProductQuote() {
       setCatalogNumber(100);
     }
   }
-}
+},[reset])
+
+  useEffect(() => {
+    getCatalogNumber();
+  }, [getCatalogNumber]);
+  
+
+  const {categories, companies, locations, isLoding} = useGetStaticData();
+  
+  const companiesOptions = useMemo(() =>  companies && companies.map((comp) => (
+    <option className="option-form text-end" key={comp.id}  defaultValue={ currentProd && currentProd.company}>{comp.companyName}</option>
+      )),[companies, currentProd, productName ]);
+
+  const categoriesOptions = useMemo(() => categories && categories.map((category) => (
+    <option className="option-form text-end" key={category.id} defaultValue={ currentProd && currentProd.category}>{category.categoryName}</option>
+      )),[categories, currentProd]); 
+      
+  const locationOptions = useMemo(() => locations && locations.map((location) => (
+    <option className="option-form text-end" key={location.id} defaultValue={ currentProd && currentProd.location}>{location.locationName}</option>
+      )),[locations, currentProd]); 
+
+  const shadesLight = useMemo (() => ['C.C.T', '4000k', '3000k', '6000k' ],[]);
+  const shadeLightOption = useMemo(() => shadesLight && shadesLight.map((shade, i) => (
+    <option className="option-form text-end" key={i} defaultValue={currentProd && currentProd.shadeLight}>{shade}</option>
+      )),[currentProd, shadesLight]);
+
+  function handleFileChange(e) {
+    const img = {
+      data: e.target.files[0],
+    };
+    console.log(img);
+    setImage(img);
+  }
+
+
 
 const onChange = (e)=>{
   console.log('imageeeee');
@@ -136,9 +119,9 @@ const onChange = (e)=>{
 }
 
 
-
   const addProductToDB = async(data) => {
     console.log(data);
+    console.log('numofimage',numOfImage);
     const newData = {
       name:data.name,
       company:data.company,
@@ -150,7 +133,7 @@ const onChange = (e)=>{
       category:data.category,
       remarks:data.remarks,
       location:data.location,
-      imageNum:Date.now(),
+      imageNum:numOfImage,
     }
     console.log(newData);
     console.log(image);
@@ -164,11 +147,11 @@ const onChange = (e)=>{
       },
     };
     try{
-      await productService.addProduct(formData, config);
+      await ProductService.addProduct(formData, config);
       setPrice('');
       toast.success('המוצר התווסף בהצלחה!');
       reset();    
-      getCatalogNumber();
+      setCatalogNumber('');
     }
     catch(ex){
       console.log(ex.response.data);
@@ -176,57 +159,8 @@ const onChange = (e)=>{
   }
 
 
- /*  const onSubmit = async(data) => {
-    
-     addProductToDB(data); 
-    if(data.category === 'בחר'){
-      data.category = '';
-    }
-    if(data.company === 'בחר'){
-      data.company = '';
-    }
-    if(data.location === 'בחר'){
-      data.location = '';
-    }
-    console.log(data);
-  console.log('123');
-   
-    let details = {
-      ...orderDetails,
-      ...data,
-     }
-   console.log(details);
-   const formData = new FormData();
-   console.log(details.image);
-   let img = image ? image : details.image;
-   console.log(img);
-   formData.append('image', img);
-   formData.append('details', JSON.stringify(details));
-    console.log(formData);
-    const config = {
-
-      headers: {
-          'content-type': 'multipart/form-data'
-      },
-    }
-   
-    try{
-      await productOrderService.addProductToOrder(formData, config);
-      toast.success('המוצר התווסף להזמנה');
-      reset();
-      setCurrentProd();
-
-    }
-    catch(ex){
-      if(ex.response.status === 400){
-        setError('חסרים פרטים להוספת המוצר!')
-      }
-      console.log(ex.response);
-    }
-  } 
-}*/
-
  const onSubmit = async(data) => {
+  let details = '';
   console.log(data);
    if(data.category === 'בחר'){
      data.category = '';
@@ -237,8 +171,29 @@ const onChange = (e)=>{
    if(data.location === 'בחר'){
      data.location = '';
    }
-  addProductToDB(data);
-  console.log(data);
+
+   if(!currentProd){
+    console.log('current prod yes');
+    console.log('data', data);
+    addProductToDB(data);
+    let newOrderDetails = {
+      customerName:orderDetails.customerName,
+      customerId:orderDetails.customerId,
+      byEmployee:orderDetails.byEmployee,
+      designer:orderDetails.designer,
+      numberOrder:orderDetails.numberOrder,
+      status:orderDetails.status,
+      }
+      data.image = numOfImage;
+      details = {
+        ...newOrderDetails,
+        ...data,
+       }
+     console.log(details);
+  }
+  else{
+ 
+ console.log(data);
  console.log('123'); 
  let newOrderDetails = {
   customerName:orderDetails.customerName,
@@ -246,18 +201,16 @@ const onChange = (e)=>{
   byEmployee:orderDetails.byEmployee,
   designer:orderDetails.designer,
   numberOrder:orderDetails.numberOrder,
-  status:orderDetails.status
- }
- console.log(image);
-
- data.image= currentProd.image;
-   let details = {
+  status:orderDetails.status,
+  }
+  data.image = image;
+   details = {
      ...newOrderDetails,
      ...data,
     }
-  console.log(details);
+  }
    try{
-     await productOrderService.addProductToOrder(details);
+     await ProductOrderService.addProductToOrder(details);
      toast.success('המוצר התווסף להזמנה');
      reset(); 
      setCurrentProd();
@@ -271,42 +224,47 @@ const onChange = (e)=>{
      console.log(ex.response);
    }
  } 
+
  
   /* const items =  products.map((prod) => ({ 
     id:prod._id,
     value: prod.name
   })); */
+ 
 
   const onSelect = async(e) =>{
-    console.log('111111');
-    setError('');
-    let name = e.target.value;
-    setProductName(name);
-    try{
-    let data = await productService.getProductByName(name);
-    console.log(data);
-    setCurrentProd(data.data);
-   /*  setImage(data.data.image); */
-    console.log(data.data.image);
-    setCatalogNumber(data.data.catalogNumber);
-    reset({});
-  }
-    catch(ex){
-      if(ex){
-        console.log('no');
-        getCatalogNumber();
-        setCurrentProd();
-        
-      }
-      console.log(ex);
+      console.log('befor', Date.now());
+      setError('');
+      let name = e.target.value;
+      setProductName(name);
+      console.log(name);
+      try{
+      let data = await ProductService.getProductByName(name);
+      console.log('after');
+      console.log(data);
+      setCurrentProd(data.data);
+      setImage(data.data.image);
+      console.log(data.data.image);
+      setCatalogNumber(data.data.catalogNumber);
+      reset({});
     }
+      catch(ex){
+        if(ex){
+          console.log('no');
+          getCatalogNumber();
+          setCurrentProd();
+        }
+        console.log(ex);
+      }
+     
+    };
    
-  } 
 
   const onCompletionOrder= (data)=>{
     console.log();
     if(data){
       onSubmit(data);
+
     }
     toast.success('ההזמנה נשלחה בהצלחה');
     navigate('/showOrder', {state:orderDetails});   
@@ -346,7 +304,14 @@ const onChange = (e)=>{
 
   return (
     <React.Fragment>
+      {isLoding && 
+      <div className="container text-center">
+        <div className="spinner-border text-primary" role="status">
+        <span className="sr-only"></span>
+      </div>
+      </div>}
     <div className="container col-lg-5 mt-4 text-end">
+      
       <h1>הוספת מוצרים</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -358,7 +323,7 @@ const onChange = (e)=>{
       className="form-control text-end"
         type="input"
         list="optionsList"
-       /*  onChange={handleChange}  */
+       onChange={onSelect}
         /* onClick={onSelect} */
         /* onFocus={clear} */
         /* onSelect={onSelect} */
@@ -376,37 +341,28 @@ const onChange = (e)=>{
             <select className="form-select" name="company"{...register('company')}>
               {currentProd && <option className="option-form text-end"  key={currentProd.id}  selected defaultValue={currentProd.company}>{currentProd.company}</option>}
               <option>בחר</option>
-              {companies && companies.map((comp) => (
-            <option className="option-form text-end" key={comp.id}  defaultValue={ currentProd && currentProd.company}>{comp.companyName}</option>
-              ))};
+              {companiesOptions}
             </select>
           
           <label className="form-label">קטגוריה</label>
             <select className="form-select"  name="category" {...register('category')}>
               {currentProd && <option className="option-form text-end"  key={currentProd.id} selected defaultValue={currentProd.category}>{currentProd.category}</option>}
               <option>בחר</option>
-              {categories && categories.map((category) => (
-            <option className="option-form text-end" key={category.id} defaultValue={ currentProd && currentProd.category}>{category.categoryName}</option>
-  
-              ))};
+              {categoriesOptions}
             </select>
 
         <label className="form-label">מיקום</label>
           <select className="form-select text-end"  name="location" {...register("location")}>
             {currentProd && <option className="option-form text-end"  key={currentProd.id} selected defaultValue={currentProd.location}>{currentProd.location}</option>}
             <option>בחר</option>
-            {locations && locations.map((location) => (
-            <option className="option-form text-end" key={location.id} defaultValue={ currentProd && currentProd.location}>{location.locationName}</option>
-              ))};
+            {locationOptions}
           </select>
             
         <label className="form-label">גוון אור</label>
           <select className="form-select text-end"  name="shadeLight" {...register("shadeLight")}>
             {currentProd && <option className="option-form text-end"  key={currentProd.shadeLight} selected defaultValue={currentProd.shadeLight}>{currentProd.shadeLight}</option>}
             <option>בחר גוון</option>
-              {shadesLight && shadesLight.map((shade, i) => (
-            <option className="option-form text-end" key={i} defaultValue={currentProd && currentProd.shadeLight}>{shade}</option>
-              ))}; 
+             {shadeLightOption}
           </select>
 
         <label className="form-label">דגם</label>
@@ -428,7 +384,7 @@ const onChange = (e)=>{
             <input className="form-control text-end" onInput={onChange} type="file" name="image" defaultValue={ currentProd && currentProd.image} onChange={handleFileChange}  {...register('image')}/> 
           
           <label className="form-label">כמות</label>
-          <input className="form-control text-end"  type="number" step="any" defaultValue={quantity} {...register('quantity')}/> 
+          <input className="form-control text-end"  type="number" step="any" defaultValue={1} {...register('quantity')}/> 
 
           <label className="form-label">הערות</label>
             <input className="form-control text-end"  type="text" defaultValue={ currentProd? currentProd.remarks : ''} {...register('remarks')}/> 
@@ -444,6 +400,7 @@ const onChange = (e)=>{
         </div>
         </div>
       </form>
+      
       </div>
    
     </React.Fragment>

@@ -1,20 +1,15 @@
 import http from "./httpService";
 import apiUrl  from '../config.json';
 
+export class CategoryService{
 
-export function addCategory(data){
-    console.log(apiUrl);
-    return http.post(`${apiUrl.apiUrl}/categories`, data);
+    static addCategory(data){
+        console.log(apiUrl);
+        return http.post(`${apiUrl.apiUrl}/categories`, data);
+    }
+
+    static getCategory(){
+        return http.get(`${apiUrl.apiUrl}/categories`);
+    }
 }
-
-export function getCategory(){
-    return http.get(`${apiUrl.apiUrl}/categories`);
-}
-
-const service = {
-    addCategory,
-    getCategory
-}
-
-export default service;
 

@@ -2,19 +2,15 @@ import http from "./httpService";
 import apiUrl  from '../config.json';
 
 
-export function addDesigner(data){
-    console.log(apiUrl);
-    return http.post(`${apiUrl.apiUrl}/designers`, data);
-}
+export class DesignerService{
 
-export function getDesigner(){
-    console.log('ccc');
-    return http.get(`${apiUrl.apiUrl}/designers`);
-}
+    static addDesigner(data){
+        console.log(apiUrl);
+        return http.post(`${apiUrl.apiUrl}/designers`, data);
+    }
 
-const service = {
-    addDesigner,
-    getDesigner
+    static getDesigner(){
+        console.log('ccc');
+        return http.get(`${apiUrl.apiUrl}/designers`);
+    }
 }
-
-export default service;

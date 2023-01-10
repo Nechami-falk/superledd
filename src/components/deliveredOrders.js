@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import productOrderService from '../services/productOrderService';
+import {ProductOrderService} from '../services/productOrderService';
 import urlImg from '../config.json';
 
 function DeliveredOrders() {
@@ -12,7 +12,7 @@ const [productsDeliver, setProductsDeliver] = useState();
 
 const getProductDeliver = async () =>{
   try{
-  let products = await productOrderService.getProductByStatus('provided');
+  let products = await ProductOrderService.getProductByStatus('provided');
   setProductsDeliver(products.data)
 }
 catch(ex){
@@ -22,7 +22,7 @@ catch(ex){
 
 const onDeleteFromProd = async(id)=>{
   try{
-    await productOrderService.deleteProdFromOrder(id);
+    await ProductOrderService.deleteProdFromOrder(id);
     getProductDeliver();
   }
   catch(ex){
@@ -62,7 +62,7 @@ const onDeleteFromProd = async(id)=>{
       <td>{prod.deliveryDate}</td>
       <td>{prod.company}</td>
       <td>{prod.color}</td>
-      <td style={{width:"8%"}}><img style={{width:"100%"}} src={`${urlImg.urlImg}/uploads/${prod.image}`} alt={prod.name} className="card-img-top"/></td>
+      <td style={{width:"8%"}}><img style={{width:"100%"}} src={`${urlImg.urlImg}/uploads/${prod.image}.png`} alt={prod.name} className="card-img-top"/></td>
       <td>{prod.quantity}</td>
       <td>{prod.price}</td>
       <td>{parseFloat((prod.price)*(prod.quantity)).toFixed(2)}</td>

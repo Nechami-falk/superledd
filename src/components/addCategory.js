@@ -2,7 +2,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import categoryService from '../services/categoryService';
+import {CategoryService} from '../services/categoryService';
 
 function AddCategory() {
 
@@ -15,7 +15,7 @@ function AddCategory() {
     const onSubmit = async (data) => {
         console.log(data);
         try{
-            await categoryService.addCategory(data);
+            await CategoryService.addCategory(data);
             toast.success('הקטגוריה נוספה בהצלחה')
             resetField("categoryName");
         }

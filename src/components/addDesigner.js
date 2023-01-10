@@ -1,7 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import designerService from '../services/designerService';
+import {DesignerService} from '../services/designerService';
 
 function AddDesigner() {
 
@@ -10,7 +10,7 @@ function AddDesigner() {
     const onSubmit = async (data) => {
         console.log(data);
         try{
-            await designerService.addDesigner(data);
+            await DesignerService.addDesigner(data);
             toast.success('המעצבת נוספה לרשימה');
             
         }

@@ -2,53 +2,35 @@ import http from "./httpService";
 import apiUrl  from '../config.json';
 
 
+export class ProductService{
 
-export function addProduct(formData, config){
+    static addProduct(formData, config){
     return http.post(`${apiUrl.apiUrl}/products`, formData, config);
 }
 
-export function getProducts(){
+    static getProducts(){
     return http.get(`${apiUrl.apiUrl}/products`);
 }
 
-export function getCatalogNumber(){
-    return http.get(`${apiUrl.apiUrl}/products/catalogNumber`);
+    static getCatalogNumber(){
+        console.log('catalogNumber');
+        return http.get(`${apiUrl.apiUrl}/products/catalogNumber`);
+    }
+
+    static getProduct(productId){
+        return http.get(`${apiUrl.apiUrl}/products/${productId}`);
+    }
+
+    static getProductByName(productName){
+        console.log('yyy',Date.now());
+        return http.get(`${apiUrl.apiUrl}/products/name/${productName}`);
+    }
+
+    static getOrderProducts(numberOrder){
+        return http.get(`${apiUrl.apiUrl}/products/?numberOrder=${numberOrder}`, );
+    }
+
+    static deleteProd(id){
+        return http.delete(`${apiUrl.apiUrl}/products/${id}`);
+    }
 }
-
-
-/* export function getBigOrderNumber(){
-    return http.get(`${apiUrl.apiUrl}/products/bigOrderNumber`);
-} */
-
-export function getProduct(productId){
-    return http.get(`${apiUrl.apiUrl}/products/${productId}`);
-}
-
-export function getProductByName(productName){
-    console.log('yyy',productName);
-    return http.get(`${apiUrl.apiUrl}/products/name/${productName}`);
-}
-
-/* export function getProductCtalogNumber(catalogNumber){
-    console.log('yyy',catalogNumber);
-    return http.get(`${apiUrl.apiUrl}/products/number/${catalogNumber}`);
-} */
-
-export function getOrderProducts(numberOrder){
-    return http.get(`${apiUrl.apiUrl}/products/?numberOrder=${numberOrder}`, );
-}
-
-
-
-const service = {
-    addProduct,
-    getProducts,
-    /* getBigOrderNumber, */
-    getCatalogNumber,
-    getProduct,
-    getOrderProducts,
-    getProductByName,
-   
-}
-
-export default service;

@@ -1,43 +1,66 @@
-import React,{useState, useEffect} from 'react';
+import React,{useState, useEffect, useCallback} from 'react';
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import customerService from '../services/customerService';
-import orderService from '../services/orderService';
-import designerService from '../services/designerService';
-import employeeService from '../services/employeeService';
+import {CustomerService} from '../services/customerService';
+import {OrderService} from '../services/orderService';
+import {DesignerService} from '../services/designerService';
+import {EmployeeService} from '../services/employeeService';
 
 
 function AddCustomerQuote(props) {
 
+  const [tdate, settDate]= useState();
+
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({
+      defaultValues:{
+        date:tdate,
+      }
+    });
+    
+    
+    /* const [customer, setCustomer] = useState('name'); */
+    const [bigOrderNumber,setBigOrderNumber] = useState();
+    const [designers, setDesigner] = useState();
+    const [employees, setEmployees] = useState();
+
+    
+    const navigate = useNavigate();
+
+  const getDate = useCallback(
+    () =>{
+    let curr = new Date();
+    curr.setDate(curr.getDate());
+    var date = curr.toISOString().substring(0,10);
+    settDate(date);
+    reset({
+      date:tdate,
+    },{
+      keepErrors: true, 
+      keepDirty: true,
+    })
+    },[reset, tdate]);
+
+      useEffect(() => {
+        getDate()
+      }, [getDate]);
+      
     useEffect( () => {
-        getDate();
         getNumberOrder();
         getDesigner();
         getEmployee();
     },[])
 
-    const getDate = () =>{
-        let curr = new Date();
-        curr.setDate(curr.getDate());
-        var date = curr.toISOString().substring(0,10);
-        settDate(date);
-        reset({
-          date:tdate,
-        },{
-          keepErrors: true, 
-          keepDirty: true,
-        })
-        }
+    
 
     const getEmployee = async ()=>{
-      let employeeData =  await employeeService.getEmployees();
+      let employeeData =  await EmployeeService.getEmployees();
       console.log('emp');
       console.log(employeeData.data);
       setEmployees(employeeData.data);
     }
 
     const getDesigner = async() =>{
-      let designersData =  await designerService.getDesigner();
+      let designersData =  await DesignerService.getDesigner();
       console.log('des');
       console.log(designersData.data);
       setDesigner(designersData.data);
@@ -45,7 +68,7 @@ function AddCustomerQuote(props) {
 
     const getNumberOrder= async ()=>{
       try{
-        let newNumberOrder = await orderService.getBigNumberOrder();
+        let newNumberOrder = await OrderService.getBigNumberOrder();
         console.log(newNumberOrder);
         newNumberOrder = (newNumberOrder.data[0].numberOrder+1);
         console.log('newOrderNumber');
@@ -60,27 +83,12 @@ function AddCustomerQuote(props) {
       }
     }
 
-    const [tdate, settDate]= useState();
-
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({
-      defaultValues:{
-        date:tdate,
-      }
-    });
     
-    
-    const [customer, setCustomer] = useState('name');
-    const [bigOrderNumber,setBigOrderNumber] = useState();
-    const [designers, setDesigner] = useState();
-    const [employees, setEmployees] = useState();
-
-    
-    const navigate = useNavigate();
 
    const onSubmit = async (data) => {
         console.log(data.date);
         console.log(data);
-        setCustomer(data);
+        /* setCustomer(data); */
         let newCustomer = {
           name:data.name,
           phone:data.phone,
@@ -90,12 +98,12 @@ function AddCustomerQuote(props) {
           date:data.date,
         }
         try{
-        let customer = await customerService.addCustomer(newCustomer);
+        let customer = await CustomerService.addCustomer(newCustomer);
         console.log(customer);
         let customerId= customer.data._id;
         customerId= customerId.toString();
         let customerName = customer.data.name;
-        setCustomer(customerId);
+      /*   setCustomer(customerId); */
         console.log('ok');
         console.log(customerName, customerId);
         
@@ -114,7 +122,7 @@ function AddCustomerQuote(props) {
         } 
         console.log('llll');
         console.log(newOrder);
-        await orderService.addOrder(newOrder);
+        await OrderService.addOrder(newOrder);
         navigate('/addProductQuote', {state:newOrder});
         }
         catch(ex){

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {Page, Font, Text, Image, Document, StyleSheet, View} from "@react-pdf/renderer";
-import productService from '../services/productService';
+import {ProductService} from '../services/productService';
 
 
 const styles = StyleSheet.create({
@@ -47,12 +47,12 @@ const PDFFile = (props) =>{
         ttGetProducts();
         console.log('PDF WRONG!!!!');
         console.log(props.products);
-    },[]);
+    },[props.products]);
 
     const [ prods, setProds] = useState();
 
     const ttGetProducts =async () => {
-        let products = await productService.getProducts();
+        let products = await ProductService.getProducts();
         console.log(products);
         setProds(products.data);
     }

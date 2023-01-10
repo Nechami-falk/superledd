@@ -1,18 +1,16 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
-import companyService from '../services/companyService';
-import{useNavigate } from "react-router-dom";
+import {CompanyService} from '../services/companyService';
 import { toast } from 'react-toastify';
 
 function AddCompany() {
 
-    const navigate = useNavigate();
     const { register, handleSubmit, resetField } = useForm(); 
 
     const onSubmit = async (data) => {
         console.log(data);
         try{
-            await companyService.addCompany(data);
+            await CompanyService.addCompany(data);
             toast.success('החברה נוספה לרשימה');
         }
         catch(ex){

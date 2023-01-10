@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import productOrderService from '../services/productOrderService';
+import {ProductOrderService} from '../services/productOrderService';
 import urlImg from '../config.json';
 
 function ProductsOrdered() {
@@ -14,7 +14,7 @@ const [date, setDate] = useState();
 
 const getOrderedProdeuct = async()=>{
   try{
-    let product = await productOrderService.getProductByStatus('ordered');
+    let product = await ProductOrderService.getProductByStatus('ordered');
     console.log(product.data);
     setProductsOrdered(product.data);
   }
@@ -25,7 +25,7 @@ const getOrderedProdeuct = async()=>{
 
 const onUpdateProvided = async(id)=>{
   try{
-    await productOrderService.updateStatusToProduct(id, 'provided', date);
+    await ProductOrderService.updateStatusToProduct(id, 'provided', date);
    /*  await productOrderService.updateDelivaryDate(id, date); */
     getOrderedProdeuct();
   }
@@ -73,7 +73,7 @@ const getCurrentDate = () =>{
       <td>{prod.customerName}</td>
       <td>{prod.company}</td>
       <td>{prod.color}</td>
-      <td style={{width:"8%"}}><img style={{width:"100%"}} src={`${urlImg.urlImg}/uploads/${prod.image}`} alt={prod.name} className="card-img-top"/></td>
+      <td style={{width:"8%"}}><img style={{width:"100%"}} src={`${urlImg.urlImg}/uploads/${prod.image}.png`} alt={prod.name} className="card-img-top"/></td>
       <td>{prod.quantity}</td>
       <td>{prod.price}</td>
       <td>{(prod.price)*(prod.quantity)}</td>

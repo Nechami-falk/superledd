@@ -1,99 +1,70 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useMemo, useCallback} from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-//import { useQuery } from 'react-query'
-//import fetchCompanies from '../services/fetchApiCompany';
-import companyService from '../services/companyService';
-import productService from '../services/productService';
-import categoryService from '../services/categoryService';
-import locationService from '../services/locationService';
-
+import {ProductService} from '../services/productService';
+import { useGetStaticData } from '../hooks/staticData';
 
 
 function AddProduct (props) {
  
-  useEffect( () => {
-    getCompanies();
-    getCategories();
-    getCatalogNumber();
-    getLocations();
-  },[])
-  /* const companyData = useQuery('company', fetchCompanies);
-  const companies = companyData.data;
-  console.log(companies);
- */
-
-  const getLocations = async ()=>{
-    try{
-      let data = await locationService.getLocations();
-      setLocations(data.data);
-      console.log(data.data);
-    }
-    catch(ex){
-      console.log(ex);
-    }
-  }
-
- const getCatalogNumber = async() =>{
-  console.log('11111');
-  try{
-  let newCatalogNumber = await productService.getCatalogNumber();
-  newCatalogNumber = (newCatalogNumber.data[0].catalogNumber)+1;
-  console.log(newCatalogNumber);
-  setCatalogNumber(newCatalogNumber);
-  console.log(newCatalogNumber);
-  reset({
-    catalogNumber:newCatalogNumber
-  })
-  }
-catch(ex){
-  console.log(ex.response);
-  if(ex.response === undefined){
-    setCatalogNumber(100);
-  }
-  
-}
-/* window.location='/addProduct'; */
-/* window.location.reload(false); */
-}
-
-  const getCategories = async () =>{
-    console.log('category....');
-    try{
-    let data = await categoryService.getCategory();
-    let categoriesData =data;
-    setCategories(categoriesData.data);
-  }
-  catch(ex){
-    console.log(ex.response);
-  }
-}
-
   const shadesLight = ['C.C.T', '4000k', '3000k', '6000k' ];
-  const status = ['הצעת מחיר', 'אושר להזמנה', 'הוזמן', 'סופק'];
+ /*  const status = ['הצעת מחיר', 'אושר להזמנה', 'הוזמן', 'סופק']; */
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
   }); 
-  //const {onBlur} = register('price');
-  const [companies,setCompanies] = useState([]);
   const [catalogNumber, setCatalogNumber] = useState();
   const [price, setPrice] = useState();
-  const [categories, setCategories] = useState([]);
   const [error, setError] = useState('');
   const [image, setImage] = useState({});
-  const [locations, setLocations ] = useState();
 
-  const getCompanies = async ()=>{
+
+  const {categories, companies, locations, isLoding} = useGetStaticData();
+
+  const getCatalogNumber = useCallback(
+    async() =>{
+    console.log('getCatalogNumber');
     try{
-    let data = await companyService.getCompany();
-    let comp = data;
-    setCompanies(comp.data);
-  }
+    let newCatalogNumber = await ProductService.getCatalogNumber();
+    newCatalogNumber = (newCatalogNumber.data[0].catalogNumber)+1;
+    console.log(newCatalogNumber);
+    setCatalogNumber(newCatalogNumber);
+    console.log(newCatalogNumber);
+    reset({
+      catalogNumber:newCatalogNumber
+    })
+    }
   catch(ex){
     console.log(ex.response);
-  }
+    if(ex.response === undefined){
+      setCatalogNumber(100);
+      }
+    }
+  },[reset]);
+
+  useEffect( () => { 
+    getCatalogNumber();
+  },[getCatalogNumber])
+
+ 
+
+
   
-}
+
+  const companiesOption = useMemo(() =>
+  companies && companies.map((company,id) => (
+    <option className="option-form" key={id}>{company.companyName}</option>
+    )),[companies]);
+
+  const categoriesOption = useMemo(() => 
+  categories && categories.map((category) => (
+    <option className="option-form text-end" key={category.id} value={category.categoryName}>{category.categoryName}</option>
+    )),[categories]);
+
+  const locationOption = useMemo(() =>
+  locations && locations.map((location) => (
+    <option className="option-form text-end" key={location.id} value={location.locationName}>{location.locationName}</option>
+      )),[locations])
+
 
 const onChange = (e)=>{
   const img =e.target.files[0];
@@ -121,7 +92,7 @@ const onSubmit = async(data)=> {
     },
   };
   try{
-    await productService.addProduct(formData, config);
+    await ProductService.addProduct(formData, config);
     setPrice('');
     toast.success('המוצר התווסף בהצלחה!');
     reset();    
@@ -171,7 +142,14 @@ const errorStyle = {
    
     
     <React.Fragment>
+      {isLoding && 
+      <div className="container text-center">
+        <div className="spinner-border text-primary" role="status">
+        <span className="sr-only"></span>
+      </div>
+      </div>}
       <div className="container text-end col-lg-5">
+        
       <h4>הוספת מוצר</h4>
       <form onSubmit={handleSubmit(onSubmit)} className="text-end">
         <label className="form-label">שם המוצר</label>
@@ -183,25 +161,19 @@ const errorStyle = {
       <label className="form-label">חברה</label>
         <select className="form-select text-end"  name="company" {...register("company")}>
         <option>בחר חברה</option>
-        {companies && companies.map((company,id) => (
-        <option className="option-form" key={id}>{company.companyName}</option>
-    ))};
+        {companiesOption}
         </select>
 
         <label className="form-label">קטגוריה</label>
             <select className="form-select text-end"  name="category" {...register("category")}>
             <option>בחר קטגוריה</option>
-              {categories && categories.map((category) => (
-            <option className="option-form text-end" key={category.id} value={category.categoryName}>{category.categoryName}</option>
-              ))};
+              {categoriesOption}
             </select>
 
       <label className="form-label">מיקום</label>
         <select className="form-select text-end"  name="location" {...register("location")}>
           <option>בחר מיקום</option>
-             {locations && locations.map((location) => (
-          <option className="option-form text-end" key={location.id} value={location.locationName}>{location.locationName}</option>
-            ))};
+          {locationOption}
         </select>
                
         <label className="form-label">מק"ט</label>

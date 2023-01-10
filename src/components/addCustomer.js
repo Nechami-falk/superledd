@@ -1,51 +1,46 @@
-import React,{useState, useEffect} from 'react';
+import React,{useState, useEffect, useCallback} from 'react';
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
-import customerService from '../services/customerService';
+import {CustomerService} from '../services/customerService';
 
 
 
 
 function AddCustomer(props) {
 
+  const [tdate, settDate]= useState();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({});
 
+   
+
+  const getDate = useCallback(
+    () =>{
+    let curr = new Date();
+    console.log(curr);
+    curr.setDate(curr.getDate());
+    var date = curr.toISOString().substring(0,10);
+    settDate(date);
+    reset({
+      date:tdate,
+    })
+    console.log(date);
+    },[reset, tdate])
 
     useEffect( () => {
         getDate();
-    },[]);
-
-    const getDate = () =>{
-        let curr = new Date();
-        console.log(curr);
-        curr.setDate(curr.getDate());
-        var date = curr.toISOString().substring(0,10);
-        settDate(date);
-        reset({
-          date:tdate,
-        })
-        console.log(date);
-        }
+    },[getDate]);
 
     
-        const [tdate, settDate]= useState();
-
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({});
-    
-    
-    const [customer, setCustomer] = useState('name');
 
     
-    const navigate = useNavigate();
+    
     
     const onSubmit = async (data) => {
         console.log(data);
-        setCustomer(data);
         try{
-        let customer = await customerService.addCustomer(data);
+        let customer = await CustomerService.addCustomer(data);
         let customerId= customer.data;
         console.log(customerId);
-        setCustomer(customerId);
         toast.success('הלקוח נוסף בהצלחה!');
         reset();
         }
