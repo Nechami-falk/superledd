@@ -86,7 +86,7 @@ catch(ex){
   
   const companiesOptions = useMemo(() =>  companies && companies.map((comp) => (
     <option className="option-form text-end" key={comp.id}  defaultValue={ currentProd && currentProd.company}>{comp.companyName}</option>
-      )),[companies, currentProd, productName ]);
+      )),[companies, currentProd]);
 
   const categoriesOptions = useMemo(() => categories && categories.map((category) => (
     <option className="option-form text-end" key={category.id} defaultValue={ currentProd && currentProd.category}>{category.categoryName}</option>
