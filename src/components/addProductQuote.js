@@ -320,21 +320,30 @@ const onChange = (e)=>{
   const onChangeCompany =(e)=>{
     console.log(e.target.value);
     if(e.target.value === "אחר"){
-    setCompanyInput(true);
+      setCompanyInput((current) => !current);
+    }
+    if(e.target.value !== "אחר"){
+      setCompanyInput(false);
+    }
   }
-}
 
   const onChangeCategory = (e)=>{
     console.log(e.target.value);
     if(e.target.value === "אחר"){
-    setCategoryInput(true);
+    setCategoryInput((current) => !current);
+    }
+    if(e.target.value !== "אחר"){
+      setCategoryInput(false);
     }
   }
 
   const onChangeLocation =(e)=>{
     console.log(e.target.value);
     if(e.target.value === "אחר"){
-    setLocationInput(true);
+    setLocationInput((current) => !current);
+  }
+  if(e.target.value !== "אחר"){
+    setLocationInput(false);
   }
   }
    
@@ -381,7 +390,7 @@ const onChange = (e)=>{
               {companiesOptions}
             </select>
           {companyInput && 
-          <input className="form-control text-end"  type="text" name="company2" {...register('company2')} />}
+          <input className="form-control text-end mt-2" placeholder="חברה אחרת" type="text" name="company2" {...register('company2')} />}
           
           <label className="form-label">קטגוריה</label>
             <select className="form-select"  name="category" {...register('category')} onChange={onChangeCategory}>
@@ -390,7 +399,7 @@ const onChange = (e)=>{
               {categoriesOptions}
             </select>
             {categoryInput && 
-          <input className="form-control text-end"  type="text" name="category2" {...register('category2')} />}
+          <input className="form-control text-end mt-2" placeholder="קטגוריה אחרת" type="text" name="category2" {...register('category2')} />}
 
         <label className="form-label">מיקום</label>
           <select className="form-select text-end"  name="location" {...register("location")} onChange={onChangeLocation}>
@@ -399,7 +408,7 @@ const onChange = (e)=>{
             {locationOptions}
           </select>
           {locationInput && 
-          <input className="form-control text-end"  type="text" name="location2" {...register('location2')} />}
+          <input className="form-control text-end mt-2" placeholder="מיקום אחר" type="text" name="location2" {...register('location2')} />}
             
         <label className="form-label">גוון אור</label>
           <select className="form-select text-end"  name="shadeLight" {...register("shadeLight")}>
