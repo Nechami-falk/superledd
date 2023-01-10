@@ -95,7 +95,8 @@ const onSubmit = async(data)=> {
     await ProductService.addProduct(formData, config);
     setPrice('');
     toast.success('המוצר התווסף בהצלחה!');
-    reset();    
+    reset();  
+    setError('');  
     getCatalogNumber();
     
   }
