@@ -21,6 +21,9 @@ function AddProductQuote() {
   const [productName,setProductName] = useState();
 /*   const [quantity, setQuantity] = useState(1); */
   const [catalogNumber, setCatalogNumber] = useState();
+  const [companyInput, setCompanyInput] = useState(false);
+  const [categoryInput, setCategoryInput] = useState(false);
+  const [locationInput, setLocationInput] = useState(false);
   const { register, handleSubmit, reset } = useForm({ });
   
   /* const getOrderDetails= () =>{
@@ -160,6 +163,19 @@ const onChange = (e)=>{
 
 
  const onSubmit = async(data) => {
+  
+  if(data.company === 'אחר'){
+  data.company = data.company2;
+  delete data.company2;
+    }
+  if(data.category === 'אחר'){
+    data.category = data.category2;
+    delete data.category2;
+    }
+  if(data.location === 'אחר'){
+    data.location = data.location2;
+    delete data.location2;
+    }
   let details = '';
   console.log(data);
    if(data.category === 'בחר'){
@@ -261,7 +277,7 @@ const onChange = (e)=>{
    
 
   const onCompletionOrder= (data)=>{
-    console.log();
+    console.log(data);
     if(data){
       onSubmit(data);
 
@@ -299,6 +315,27 @@ const onChange = (e)=>{
       reset({price:newPrice})
     }
     
+  }
+
+  const onChangeCompany =(e)=>{
+    console.log(e.target.value);
+    if(e.target.value === "אחר"){
+    setCompanyInput(true);
+  }
+}
+
+  const onChangeCategory = (e)=>{
+    console.log(e.target.value);
+    if(e.target.value === "אחר"){
+    setCategoryInput(true);
+    }
+  }
+
+  const onChangeLocation =(e)=>{
+    console.log(e.target.value);
+    if(e.target.value === "אחר"){
+    setLocationInput(true);
+  }
   }
    
 
@@ -338,25 +375,31 @@ const onChange = (e)=>{
         </datalist>
 
           <label className="form-label">חברה</label>
-            <select className="form-select" name="company"{...register('company')}>
+            <select className="form-select" name="company"{...register('company')} onChange={onChangeCompany}>
               {currentProd && <option className="option-form text-end"  key={currentProd.id}  selected defaultValue={currentProd.company}>{currentProd.company}</option>}
               <option>בחר</option>
               {companiesOptions}
             </select>
+          {companyInput && 
+          <input className="form-control text-end"  type="text" name="company2" {...register('company2')} />}
           
           <label className="form-label">קטגוריה</label>
-            <select className="form-select"  name="category" {...register('category')}>
+            <select className="form-select"  name="category" {...register('category')} onChange={onChangeCategory}>
               {currentProd && <option className="option-form text-end"  key={currentProd.id} selected defaultValue={currentProd.category}>{currentProd.category}</option>}
               <option>בחר</option>
               {categoriesOptions}
             </select>
+            {categoryInput && 
+          <input className="form-control text-end"  type="text" name="category2" {...register('category2')} />}
 
         <label className="form-label">מיקום</label>
-          <select className="form-select text-end"  name="location" {...register("location")}>
+          <select className="form-select text-end"  name="location" {...register("location")} onChange={onChangeLocation}>
             {currentProd && <option className="option-form text-end"  key={currentProd.id} selected defaultValue={currentProd.location}>{currentProd.location}</option>}
             <option>בחר</option>
             {locationOptions}
           </select>
+          {locationInput && 
+          <input className="form-control text-end"  type="text" name="location2" {...register('location2')} />}
             
         <label className="form-label">גוון אור</label>
           <select className="form-select text-end"  name="shadeLight" {...register("shadeLight")}>
