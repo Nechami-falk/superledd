@@ -33,8 +33,9 @@ export class ProductOrderService{
         return http.delete(`${apiUrl.apiUrl}/productOrders/${productId}`)
     }
 
-    static updateProductById(data){
-        return http.patch(`${apiUrl.apiUrl}/productOrders`, data);
+    static updateProductById(id,data){
+        console.log('data', data);
+        return http.put(`${apiUrl.apiUrl}/productOrders/${id}`, data);
     }
 
     static updateStatusToProduct(id, status, date){

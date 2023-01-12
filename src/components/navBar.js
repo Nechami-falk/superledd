@@ -48,8 +48,8 @@ function NavBar() {
           </NavDropdown>
           
           <Nav.Link to="/deliveredOrders" as={Link} className="text-end">מוצרים שסופקו</Nav.Link>
-          <Nav.Link to="/myProducts" as={Link} className="text-end me-2">מוצרים</Nav.Link>
-            
+          <Nav.Link to="/myProducts" as={Link} className="text-end me-2">המצורים שלנו</Nav.Link>
+          <Nav.Link to="/myCustomers" as={Link} className="text-end me-2">הלקוחות שלנו</Nav.Link>
             
             
             

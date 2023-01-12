@@ -111,7 +111,7 @@ catch(ex){
     newData._id = product._id;
     console.log(newData);
     try{
-      await ProductOrderService.updateProductById(newData);
+      await ProductOrderService.updateProductById(newData._id , newData);
       toast.success('המוצר עודכן בהצלחה!');
       let numberOrder = {numberOrder: product.numberOrder};
 

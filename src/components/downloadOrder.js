@@ -8,7 +8,7 @@ import urlImg from '../config.json';
 
 function DownloadOrder() {
 
-  let location = useLocation();
+  const location = useLocation();
   const [order, setOrder ] = useState();
   const [products, setProducts] = useState([]);
   const [totalPayment, setTotalPayment] = useState();

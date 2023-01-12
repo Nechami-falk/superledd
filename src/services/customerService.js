@@ -16,4 +16,8 @@ export class CustomerService{
     static getCustomer(customerPhone){
         return http.get(`${apiUrl.apiUrl}/customers/${customerPhone}`);
     }
+
+    static editCustomer(id, data){
+        return http.put(`${apiUrl.apiUrl}/customers/${id}`, data);
+    }
 }
