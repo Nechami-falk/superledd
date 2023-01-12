@@ -12,6 +12,11 @@ export class ProductService{
     return http.get(`${apiUrl.apiUrl}/products`);
 }
 
+    static addImage(formData, config){
+        console.log('bbb');
+    return http.post(`${apiUrl.apiUrl}/products/image`, formData, config);
+}
+
     static getCatalogNumber(){
         console.log('catalogNumber');
         return http.get(`${apiUrl.apiUrl}/products/catalogNumber`);

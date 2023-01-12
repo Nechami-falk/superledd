@@ -6,6 +6,7 @@ import {CategoryService} from "../services/categoryService";
 import {LocationService} from '../services/locationService';
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
+import { ProductService } from '../services/productService';
 
 function EditProduct() {
 
@@ -31,6 +32,7 @@ function EditProduct() {
       setProduct(details.data);
       console.log(details.data);
       setPrice(details.data.price);
+      console.log(details.data.image);
       reset({});
     }
     catch(ex){
@@ -105,10 +107,13 @@ catch(ex){
   }
 
   const onSubmit=async(data)=>{
-    console.log(data);
+    
     const newData = data;
     newData.price = price;
     newData._id = product._id;
+    if(!image){
+    console.log(data);
+    newData.image = product.image;
     console.log(newData);
     try{
       await ProductOrderService.updateProductById(newData._id , newData);
@@ -121,8 +126,39 @@ catch(ex){
     catch(ex){
       setError('בעיה בעדכון המוצר');
     }
-    
   }
+  else{
+   console.log('immageee!');
+    console.log(newData);
+    const img = Date.now();
+    console.log(img);
+    newData.image = img;
+    newData.imageNum = img;
+    console.log(newData);
+   const formData = new FormData();
+   formData.append('data', JSON.stringify(newData));
+   formData.append('image',image);
+   const config = {
+  
+    headers: {
+        'content-type': 'multipart/form-data'
+    },
+  };
+  try{
+    const prod = await ProductOrderService.updateProductById(newData._id , newData);
+    console.log(prod);
+    console.log(formData);
+    await ProductService.addImage(formData, config);
+    toast.success('המוצר עודכן בהצלחה!');
+    console.log(product.numberOrder);
+    navigate('/showOrder', {state:product})
+  }
+  catch(ex){
+    console.log(ex);
+      }
+    } 
+  }
+
 
   function handleFileChange(e) {
     const img = {
@@ -148,9 +184,7 @@ catch(ex){
       <form onSubmit={handleSubmit(onSubmit)}>
       <div className="border p-2">
     
-            
-
-    {/*  <input
+   {/*<input
       className="form-control text-end"
         type="input"
         list="optionsList"
@@ -164,7 +198,7 @@ catch(ex){
         {products.map((o) => (
           <option key={o.id} >{o.name}</option>
         ))} 
-        </datalist> */}
+        </datalist>*/}
 
    <label className="form-label">שם המוצר</label>
    <input className="form-control text-end" type="text" name="name" defaultValue={product && product.name} {...register('name')} />
