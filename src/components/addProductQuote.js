@@ -155,6 +155,7 @@ const onChange = (e)=>{
       toast.success('המוצר התווסף בהצלחה!');
       reset();    
       setCatalogNumber('');
+      setPrice();
     }
     catch(ex){
       console.log(ex.response.data);
@@ -231,6 +232,7 @@ const onChange = (e)=>{
      reset(); 
      setCurrentProd();
      getCatalogNumber();
+     setPrice();
 
    }
    catch(ex){
