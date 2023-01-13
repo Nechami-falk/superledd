@@ -33,6 +33,11 @@ export class ProductOrderService{
         return http.delete(`${apiUrl.apiUrl}/productOrders/${productId}`)
     }
 
+    
+    static deleteProductsOrder(numberOrder){
+        return http.delete(`${apiUrl.apiUrl}/productOrders/?numberOrder=${numberOrder}`)
+    }
+
     static updateProductById(id,data){
         console.log('data', data);
         return http.put(`${apiUrl.apiUrl}/productOrders/${id}`, data);

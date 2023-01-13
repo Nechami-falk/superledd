@@ -3,15 +3,10 @@ import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
 import {CustomerService} from '../services/customerService';
 
-
-
-
 function AddCustomer(props) {
 
   const [tdate, settDate]= useState();
   const { register, handleSubmit, reset, formState: { errors } } = useForm({});
-
-   
 
   const getDate = useCallback(
     () =>{
@@ -24,17 +19,12 @@ function AddCustomer(props) {
       date:tdate,
     })
     console.log(date);
-    },[reset, tdate])
+    },[reset, tdate]);
 
     useEffect( () => {
         getDate();
     },[getDate]);
-
-    
-
-    
-    
-    
+ 
     const onSubmit = async (data) => {
         console.log(data);
         try{

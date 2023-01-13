@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {useGetStaticData} from '../hooks/staticData';
 
+
 function AddProductQuote() {
 
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ function AddProductQuote() {
   const [orderDetails, setOrderDetails] = useState();
   const [products, setProducts] = useState([]);
   const [error, setError] = useState();
+  const [error2, setError2] = useState();
   const [currentProd, setCurrentProd] = useState();
   const [image, setImage] = useState('');
   const [price, setPrice] = useState();
@@ -164,7 +166,15 @@ const onChange = (e)=>{
 
 
  const onSubmit = async(data) => {
-  
+ 
+  if(data.name){
+    console.log(data.name);
+  }
+  else{
+    onCompletionOrder();
+    return
+  }
+
   if(data.company === 'אחר'){
   data.company = data.company2;
   delete data.company2;
@@ -251,6 +261,7 @@ const onChange = (e)=>{
  
 
   const onSelect = async(e) =>{
+      
       console.log('befor', Date.now());
       setError('');
       let name = e.target.value;
@@ -269,24 +280,21 @@ const onChange = (e)=>{
       catch(ex){
         if(ex){
           console.log('no');
+          console.log(ex);
           getCatalogNumber();
           setCurrentProd();
         }
-        console.log(ex);
+        console.log(ex.response.data);
+        setError2(ex.response.data);
       }
-     
     };
    
 
-  const onCompletionOrder= (data)=>{
-    console.log(data);
-    if(data){
-      onSubmit(data);
-
-    }
+  const onCompletionOrder= ()=>{
+    console.log('gggjjjj');
     toast.success('ההזמנה נשלחה בהצלחה');
-    navigate('/showOrder', {state:orderDetails});   
-  }
+    navigate('/showOrder', {state:orderDetails}); 
+    }
 
   /* const handleChange = (event) => {
     console.log('3333');
@@ -348,7 +356,8 @@ const onChange = (e)=>{
     setLocationInput(false);
   }
   }
-   
+
+ 
 
   return (
     <React.Fragment>
@@ -364,6 +373,8 @@ const onChange = (e)=>{
 
       <form onSubmit={handleSubmit(onSubmit)}>
       <div className="border p-2">
+      {error2 && 
+      <p className="h4" style={{color:"red"}}>{error2}</p>}
       <lable className="form-label">שם המוצר</lable>
             <br></br>
 
@@ -375,6 +386,7 @@ const onChange = (e)=>{
         /* onClick={onSelect} */
         /* onFocus={clear} */
         /* onSelect={onSelect} */
+        onKeyUp={()=>{setError2('')}}
         {...register('name')}
         onBlur={onSelect}
         name='name'
@@ -447,7 +459,7 @@ const onChange = (e)=>{
 
         <div className="container col-lg-12 d-flex justify-content-around">
         <button type="submit" className="btn btn-warning mt-3">הוסף מוצר</button>
-        <button className="btn btn-info mt-3" type="button" onClick={onCompletionOrder}>סיום הזמנה</button>
+        <button className="btn btn-info mt-3" type="דונצןא" onClick={onCompletionOrder}>סיום הזמנה</button>
 {/*<button className = "btn btn-success mt-3" type="button" onClick={onAddProduct}>הוסף מוצר </button> */}
         
         

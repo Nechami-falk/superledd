@@ -3,6 +3,7 @@ import {OrderService} from '../services/orderService';
 import {useNavigate} from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert'; 
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import { ProductOrderService } from '../services/productOrderService';
 
 
 
@@ -49,18 +50,11 @@ const onDeleteOrder = (quote)=>{
 };
 
 const deleteOrder = async(quote)=>{
-  await OrderService.deleteOrder(quote._id);
+  await OrderService.deleteOrder(quote._id); 
+  await ProductOrderService.deleteProductsOrder(quote.numberOrder);
 }
-  /* const formatDate = (tdate) =>{
-    let curr = new Date(tdate);
-        curr.setDate(curr.getDate());
-        let date = curr.toISOString().substring(0,10);
-        console.log(date);
-
-
-  }
- */
-  const goShowProduct = (numberOrder) =>{
+  
+const goShowProduct = (numberOrder) =>{
     navigate('/showOrder',{state:numberOrder});
   }
 

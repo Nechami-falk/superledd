@@ -38,4 +38,5 @@ export class ProductService{
     static deleteProd(id){
         return http.delete(`${apiUrl.apiUrl}/products/${id}`);
     }
+
 }
