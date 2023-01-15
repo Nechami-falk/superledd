@@ -52,6 +52,7 @@ const onDeleteOrder = (quote)=>{
 const deleteOrder = async(quote)=>{
   await OrderService.deleteOrder(quote._id); 
   await ProductOrderService.deleteProductsOrder(quote.numberOrder);
+  getAllQuotePrices();
 }
   
 const goShowProduct = (numberOrder) =>{
@@ -82,7 +83,7 @@ const goShowProduct = (numberOrder) =>{
           </div>
         
         </React.Fragment>
-        ))};
+        ))}
         </div>
       </div>
     </React.Fragment>
