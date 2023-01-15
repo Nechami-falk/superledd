@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import {ProductOrderService} from '../services/productOrderService';
 import  urlImg from '../config.json';
 import { useNavigate } from "react-router-dom";
-
+/* import SelectStatus from './selectStatus'; */
 
 
 function ShowOrder() {
@@ -14,7 +14,8 @@ function ShowOrder() {
   const [order, setOrder ] = useState();
   const [products, setProducts] = useState([]);
   const [totalPayment, setTotalPayment] = useState();
-  const [isShown, setIsShown] = useState(false);
+  const [isShow, setIsShow] = useState(false);
+  const [index, setIndex] = useState('');
   /* const [status, setStatus] = useState(); */
 
 
@@ -60,8 +61,10 @@ function ShowOrder() {
       }
   } */
 
-  const onProductToOrder = ()=>{
-    setIsShown(current => !current);
+  const onProductToOrder = (productId, i)=>{
+    console.log(productId);
+    setIsShow(current => !current);
+    setIndex(i);
   };
 
   const onToCancel = async(id)=>{
@@ -106,15 +109,14 @@ function ShowOrder() {
   const onChangeStatus=async(event,id)=>{
     const productId = id;
     const status = event.target.value;
-    setIsShown(current => !current);
+    setIsShow(current => !current);
     try{
       await ProductOrderService.updateStatusToProduct(productId, status)
       getOrderDetails();
     }
     catch(ex){
       console.log(ex);
-    }
-  
+    } 
   }  
 
  
@@ -161,15 +163,15 @@ function ShowOrder() {
       :prod.status && prod.status==='provided' ? 'סופק' : ''}
       </td>
 
-      <td><button type="button" className="btn btn-info mt-3" onClick={()=>{onProductToOrder(prod._id)}}>עדכון סטטוס</button>
-      {isShown && 
+      <td><button type="button" className="btn btn-info mt-3" key={i} onClick={()=>{onProductToOrder(prod._id, i)}}>עדכון סטטוס</button>
+      {(isShow && index === i) &&
       <select className="form-select text-end"  name="company" onChange={(e)=>{onChangeStatus(e, prod._id)}}>
       <option>בחר סטטוס</option>
       {statuses && statuses.map((stat,i) => (
       <option className="option-form" value={stat.value} key={i}>{stat.name}</option>
       ))};
       </select>
-      }
+      } 
       </td>
       <td><button type="button" className="btn btn-danger mt-3" onClick={()=>{onToCancel(prod._id)}}>ביטול</button></td>  
       <td><button type="button" className="btn btn-warning mt-3" onClick={()=>{navigate('/editProduct',{state:prod._id})}}>עדכון מוצר</button></td>
