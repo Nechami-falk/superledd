@@ -102,7 +102,7 @@ function DownloadOrder() {
       ))}
     </tbody>
   </table>
-  <h3 className="text-start">סה"כ לתשלום :{totalPayment}</h3>
+  <h3 className="text-start">סה"כ לתשלום :{parseFloat(totalPayment).toFixed(2)}</h3>
   <div>
     {/* <button className ="btn btn-info" onClick={downloadPDFWithBrowserPrint}>להדפסה/ הורדה</button> */}
  
