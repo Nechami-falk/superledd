@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { CustomerService } from '../services/customerService'
 
 function MyCustomers() {
@@ -7,17 +8,29 @@ function MyCustomers() {
 const navigate = useNavigate();
 const [customers, setCustomers] =  useState();
 useEffect(() => {
-    const fetchData = async () =>{
-        const data = await CustomerService.getCustomers();
-        console.log(data.data);
-        setCustomers(data.data);
-    }
-    fetchData();
+    getCustomerData();
 }, []);
+
+const getCustomerData = async () =>{
+  const data = await CustomerService.getCustomers();
+  console.log(data.data);
+  setCustomers(data.data);
+}
 
 const onUpdateCustomer = (customer)=>{
   navigate('/editCustomer', {state:customer});
   console.log(customer);
+}
+
+const onDeleteCustomer = async (customerId) =>{
+  try{
+    await CustomerService.deleteCustomer(customerId);
+    toast.success('הלקוח נמחק מרשימת הלקוחות');
+  }
+  catch(ex){
+    console.log(ex);
+  }
+  getCustomerData();
 }
 
   return (
@@ -46,6 +59,7 @@ const onUpdateCustomer = (customer)=>{
               <td>{customer.adress}</td>
               <td>
             <button className='btn btn-success m-2' onClick={()=>{onUpdateCustomer(customer)}}>עדכון פרטי לקוח</button>
+            <button className='btn btn-danger m-2' onClick={()=>{onDeleteCustomer(customer._id)}}>מחיקת לקוח</button>
             </td>
             </tr>
             ))}

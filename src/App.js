@@ -25,10 +25,11 @@ import DownloadOrder from './components/downloadOrder';
 import AddLocation from './components/addLocation';
 import Home from './components/home';
 import Page404 from './components/page404';
-import EditProduct from './components/editProduct';
+import EditProductOrder from './components/editProductOrder';
 import MyProducts from './components/myProducts';
 import MyCustomers from './components/myCustomers';
 import EditCustomer from './components/editCustomer';
+import EditProduct from './components/editProduct';
 
 
 function App() {
@@ -63,10 +64,11 @@ function App() {
       <Route path = "productsOrdered" element={<ProductsOrdered/>}/>
       <Route path = "downloadOrder" element={<DownloadOrder/>}/>
       <Route path = "addLocation" element={<AddLocation/>}/>
-      <Route path = "editProduct" element={<EditProduct/>}/>
+      <Route path = "editProductOrder" element={<EditProductOrder/>}/>
       <Route path = "myProducts" element={<MyProducts/>}/>
       <Route path = "myCustomers" element={<MyCustomers/>}/>
       <Route path = "editCustomer" element={<EditCustomer/>}/>
+      <Route path = "editProduct" element={<EditProduct/>}/>
       <Route exact path = "/" element={<Home/>}/>
       
       <Route path = "/" element={<Page404/>}/>

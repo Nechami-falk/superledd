@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import{useNavigate, useLocation } from "react-router-dom";
+import {ProductOrderService} from '../services/productOrderService';
 import {CompanyService} from "../services/companyService";
 import {CategoryService} from "../services/categoryService";
 import {LocationService} from '../services/locationService';
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
-import { ProductOrderService } from '../services/productOrderService';
 import { ProductService } from '../services/productService';
 
-function EditProduct() {
+function EditProductOrder() {
 
   const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ function EditProduct() {
     let prodId = location.state;
     console.log(prodId);
     try{
-      let details = await ProductService.getProduct(prodId);
+      let details = await ProductService.getProductById(prodId);
       setProduct(details.data);
       console.log(details.data);
       setPrice(details.data.price);
@@ -117,12 +117,12 @@ catch(ex){
     newData.image = product.image;
     console.log(newData);
     try{
-      await ProductService.updateProductById(newData._id , newData);
+      await ProductOrderService.updateProductById(newData._id , newData);
       toast.success('המוצר עודכן בהצלחה!');
       let numberOrder = {numberOrder: product.numberOrder};
 
       console.log(numberOrder);
-      navigate('/myProducts');
+      navigate('/showOrder', {state:numberOrder})
     }
     catch(ex){
       setError('בעיה בעדכון המוצר');
@@ -146,13 +146,13 @@ catch(ex){
     },
   };
   try{
-    const prod = await ProductService.updateProductById(newData._id , newData);
+    const prod = await ProductOrderService.updateProductById(newData._id , newData);
     console.log(prod);
     console.log(formData);
     await ProductService.addImage(formData, config);
     toast.success('המוצר עודכן בהצלחה!');
     console.log(product.numberOrder);
-    navigate('/myProducts');
+    navigate('/showOrder', {state:product})
   }
   catch(ex){
     console.log(ex);
@@ -276,4 +276,4 @@ catch(ex){
   )
 }
 
-export default EditProduct;
+export default EditProductOrder;

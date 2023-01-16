@@ -39,4 +39,8 @@ export class ProductService{
         return http.delete(`${apiUrl.apiUrl}/products/${id}`);
     }
 
+    static updateProductById(id, data){
+        return http.put(`${apiUrl.apiUrl}/products/${id}`, data)
+    }
+
 }

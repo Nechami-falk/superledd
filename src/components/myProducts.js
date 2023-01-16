@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {ProductService} from '../services/productService';
 import urlImg from '../config.json';
+import { useNavigate } from 'react-router-dom';
 
 function MyProducts() {
 
@@ -8,14 +9,15 @@ function MyProducts() {
       getProducts();
     }, []);
     
+const navigate = useNavigate();
+const [products, setProducts] = useState();
 
-    const [products, serProducts] = useState();
 const getProducts = async()=>{
 try{
     let data = await ProductService.getProducts();
     data = data.data;
     console.log(data);
-    serProducts(data);
+    setProducts(data);
 }
 catch(ex){
     console.log(ex);
@@ -25,6 +27,10 @@ catch(ex){
 const onDeleteProd = async (id) =>{
   await ProductService.deleteProd(id);
   getProducts();
+}
+
+const onUpdateCurrentProd =(productId)=>{
+  navigate('/editProduct', {state:productId});
 }
 
   return (
@@ -44,7 +50,7 @@ const onDeleteProd = async (id) =>{
             <p className="card-text"></p>
           </div>
           <div className="d-flex justify-content-around">
-          <button className="btn btn-warning m-2">עדכון</button>
+          <button className="btn btn-warning m-2" onClick={()=>{onUpdateCurrentProd(prod._id)}}>עדכון</button>
           <button className="btn btn-danger m-2" onClick={()=>{onDeleteProd(prod._id)}}>מחיקה</button>
           </div>
 </div>

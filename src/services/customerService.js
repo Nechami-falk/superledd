@@ -20,4 +20,10 @@ export class CustomerService{
     static editCustomer(id, data){
         return http.put(`${apiUrl.apiUrl}/customers/${id}`, data);
     }
+
+    static deleteCustomer(id){
+        console.log('deleteeeeee');
+        console.log(id);
+        return http.delete(`${apiUrl.apiUrl}/customers/${id}`);
+    }
 }

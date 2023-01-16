@@ -126,6 +126,7 @@ function ShowOrder() {
   <div className="container">
   <h1 className="text-center h3">הצעת מחיר עבור: {order && order.customerName}</h1>
   <h5 className="text-center">תאריך: {order && order.date}     מספר הזמנה: {order && order.numberOrder}</h5>
+  <h5 className="text-center">מבצעת ההזמנה: {order && order.byEmployee}</h5> 
   <table className="table table-striped table-hover">
   <thead>
     <tr>
@@ -163,9 +164,9 @@ function ShowOrder() {
       :prod.status && prod.status==='provided' ? 'סופק' : ''}
       </td>
 
-      <td><button type="button" className="btn btn-info mt-3" key={i} onClick={()=>{onProductToOrder(prod._id, i)}}>עדכון סטטוס</button>
+      <td><button type="button" className="btn btn-info mt-3" key={i}  onClick={()=>{onProductToOrder(prod._id, i)}}>עדכון סטטוס</button>
       {(isShow && index === i) &&
-      <select className="form-select text-end"  name="company" onChange={(e)=>{onChangeStatus(e, prod._id)}}>
+      <select className="form-select text-end" /* onMouseOut={()=>{setIsShow(current => !current)}} */ name="company"  onChange={(e)=>{onChangeStatus(e, prod._id)}}>
       <option>בחר סטטוס</option>
       {statuses && statuses.map((stat,i) => (
       <option className="option-form" value={stat.value} key={i}>{stat.name}</option>
@@ -174,7 +175,7 @@ function ShowOrder() {
       } 
       </td>
       <td><button type="button" className="btn btn-danger mt-3" onClick={()=>{onToCancel(prod._id)}}>ביטול</button></td>  
-      <td><button type="button" className="btn btn-warning mt-3" onClick={()=>{navigate('/editProduct',{state:prod._id})}}>עדכון מוצר</button></td>
+      <td><button type="button" className="btn btn-warning mt-3" onClick={()=>{navigate('/editProductOrder',{state:prod._id})}}>עדכון מוצר</button></td>
     </tr>
     ))}
   </tbody>
