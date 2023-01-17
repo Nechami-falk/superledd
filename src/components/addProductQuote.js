@@ -55,10 +55,14 @@ catch(ex){
   }, []);
 
  useEffect(() => {
+  getImageNum();
+  }, []);
+
+  const getImageNum = ()=>{
     const num = Date.now().toString();
     console.log('numOfImage',num);
     setNumOfImage(num);
-  }, [])
+  }
   
 
   const getCatalogNumber = useCallback(
@@ -158,6 +162,7 @@ const onChange = (e)=>{
       reset();    
       setCatalogNumber('');
       setPrice();
+      getImageNum();
     }
     catch(ex){
       console.log(ex.response.data);
@@ -243,6 +248,7 @@ const onChange = (e)=>{
      setCurrentProd();
      getCatalogNumber();
      setPrice();
+     setNumOfImage();
 
    }
    catch(ex){
