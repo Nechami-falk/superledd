@@ -76,7 +76,8 @@ catch(ex){
     console.log(newCatalogNumber);
     reset({
       catalogNumber:newCatalogNumber
-    })
+    });
+    setPrice();
     }
   catch(ex){
     console.log(ex.response);
@@ -157,7 +158,6 @@ const onChange = (e)=>{
     };
     try{
       await ProductService.addProduct(formData, config);
-      setPrice('');
       toast.success('המוצר התווסף בהצלחה!');
       reset();    
       setCatalogNumber('');
@@ -245,6 +245,7 @@ const onChange = (e)=>{
      await ProductOrderService.addProductToOrder(details);
      toast.success('המוצר התווסף להזמנה');
      reset(); 
+     reset({price:''});
      setCurrentProd();
      getCatalogNumber();
      setPrice();
