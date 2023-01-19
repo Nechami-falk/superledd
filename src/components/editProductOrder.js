@@ -13,7 +13,7 @@ function EditProductOrder() {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const shadesLight = ['C.C.T', '4000k', '3000k', '6000k' ];
+  const shadesLight = ['בחר','C.C.T', '4000k', '3000k', '6000k' ];
   const [product, setProduct] = useState();
   const [image, setImage] = useState();
   const [price, setPrice] = useState();
@@ -21,7 +21,7 @@ function EditProductOrder() {
   const [companies, setCompanies] = useState([]);
   const [locations, setLocations ] = useState();
   const [error, setError] = useState();
-  const { register, handleSubmit, reset } = useForm({ });
+  const { register, handleSubmit, reset, setValue } = useForm({ });
   
 
   const getProductDetails = useCallback(
@@ -29,27 +29,44 @@ function EditProductOrder() {
     let prodId = location.state;
     console.log(prodId);
     try{
-      let details = await ProductService.getProductById(prodId);
+      let details = await ProductOrderService.getProductById(prodId);
       setProduct(details.data);
       console.log(details.data);
       setPrice(details.data.price);
       console.log(details.data.image);
+      setValue('category', details.data.category);
+      setValue('company', details.data.company);
+      setValue('location', details.data.location);
+      setValue('shadeLight', details.data.shadeLight);
       reset({});
     }
     catch(ex){
       console.log(ex);
     }
-  },[location.state, reset]);
+  },[location.state, reset, setValue]);
 
 
 
   useEffect(() => {
     getProductDetails();
-    getCompanies();
-    getCategories();
-    getLocations();
   }, [getProductDetails]);
 
+  useEffect(() => {
+    getCompanies();
+  }, []);
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  useEffect(() => {
+    getLocations();
+  }, [])
+  
+  
+
+
+  
   const getCompanies = async ()=>{
     try{
     let data = await CompanyService.getCompany();
@@ -108,7 +125,8 @@ catch(ex){
   }
 
   const onSubmit=async(data)=>{
-    
+    console.log(data);
+    console.log(product);
     const newData = data;
     newData.price = price;
     newData._id = product._id;
@@ -223,7 +241,7 @@ catch(ex){
 
             <label className="form-label">מיקום</label>
         <select className="form-select text-end"  name="location"  {...register("location")}>
-          {product && <option className="option-form text-end"  key={product.id} value={product.location}>{product.location}</option>}
+          {product && <option className="option-form text-end"  key={product.id} >{product.location}</option>}
           {locations && locations.map((location) => (
           <option className="option-form text-end" key={location.id} >{location.locationName}</option>
             ))};
@@ -234,8 +252,9 @@ catch(ex){
             
           <label className="form-label">גוון אור</label>
         <select className="form-select text-end" name="shadeLight" {...register("shadeLight")}>
+          
              {shadesLight && shadesLight.map((shade, i) => (
-          <option className="option-form text-end" key={i} defaultValue={product && product.shadeLight} value={shade}>{shade}</option>
+          <option className="option-form text-end" key={i} defaultValue={product && product.shadeLight}>{shade}</option>
             ))};
         </select>
 
