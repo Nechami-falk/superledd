@@ -14,6 +14,11 @@ export class OrderService{
         return http.get(`${apiUrl.apiUrl}/orders`);
     }
 
+    static getSearchOrder(data){
+        console.log('ttt');
+        return http.get(`${apiUrl.apiUrl}/orders/search?search=${data}`);
+    }
+
     static getBigNumberOrder(){
         console.log('service');
         return http.get(`${apiUrl.apiUrl}/orders/bigNumberOrder`);

@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert'; 
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { ProductOrderService } from '../services/productOrderService';
+import { QuotePriceService } from '../services/quotePriceService';
 
 
 
@@ -13,6 +14,7 @@ function QuoteForm() {
     getAllQuotePrices();
   },[])
 
+  const [error, setError] = useState();
   const[qoutesPrice, setQuotesPrice] = useState()
    const navigate = useNavigate();
 
@@ -60,14 +62,34 @@ const goShowProduct = (numberOrder) =>{
   }
 
 
-  
+const onSearchSubmit = async (e)=>{
+  console.log('ggg');
+  const data =e.target.value;
+  try{
+    const orders = await OrderService.getSearchOrder(data);
+    console.log(orders);
+    setQuotesPrice(orders.data);
+    setError('');
+    if(orders.data.length < 1){
+      console.log('hhh');
+    setError('אין תוצאות');
+    }
+  }
+  catch(ex){
+    console.log(ex);
+  }
+}
 
   return (
     <React.Fragment>
     <div className="container col-lg-12 mt-4 text-end">
-  
       <h1 className='text-center'>הצעות מחיר</h1>
-      
+      <div className='row'>
+      <form className="col-lg-4" role="search">
+        <input className="form-control" type="search" placeholder="חיפוש..." aria-label="Search" onKeyUp={(e) => {onSearchSubmit(e)}} />
+      </form>
+      <h3 className='col-lg-8'>{error}</h3>
+      </div>
       <div className="row">
         {qoutesPrice && qoutesPrice.map((quote)=>(
           <React.Fragment>
