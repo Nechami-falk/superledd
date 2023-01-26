@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 
 function MyCustomers() {
 
-  const { register, handleSubmit } = useForm(); 
+const { register } = useForm(); 
 const navigate = useNavigate();
 const [customers, setCustomers] =  useState();
 
@@ -58,7 +58,6 @@ const onDataSubmit = async(e) => {
       <div className='row col-lg-4 m-3'>
       <form className="d-flex" role="search">
         <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onKeyUp={(e) => {onDataSubmit(e)}} {...register("search")}/>
-        <button className="btn btn-outline-success" type="submit">Search</button>
       </form>
       </div>
     </div>
