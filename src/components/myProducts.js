@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {ProductService} from '../services/productService';
 import urlImg from '../config.json';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+
 
 function MyProducts() {
 
@@ -11,6 +13,8 @@ function MyProducts() {
     
 const navigate = useNavigate();
 const [products, setProducts] = useState();
+const [error, setError] = useState();
+const { register } = useForm(); 
 
 const getProducts = async()=>{
 try{
@@ -33,10 +37,33 @@ const onUpdateCurrentProd =(productId)=>{
   navigate('/editProduct', {state:productId});
 }
 
+const onSearchSubmit = async(e) =>{
+  console.log(e.target.value);
+  const data = e.target.value;
+  try{
+    const product = await ProductService.getProductSearch(data);
+    console.log(product.data);
+    setProducts(product.data);
+    setError('');
+    if(product.data.length < 1){
+      console.log('hhh');
+      setError('אין תוצאות');
+    }
+  }
+  catch(ex){
+    console.log(ex);
+  }
+}
   return (
     <React.Fragment>
-        <div className='container col-lg-12'>
-            <h1 className="text-center">המוצרים שלנו</h1>
+        <div className='container'>
+        <h1 className='text-center'>המוצרים שלנו</h1>
+        <div className='row col-lg-12 m-3'>
+            <form className="col-lg-4" role="search">
+        <input className="form-control" type="search" placeholder="חיפוש..." aria-label="Search" onKeyUp={(e) => {onSearchSubmit(e)}} {...register("search")}/>
+      </form>
+      <h3 className='col-lg-8'>{error}</h3>
+      </div>
         <div className="row">
             {products && products.map((prod)=>(
         <div className="card m-3" key={prod.id} style={{width: "18rem"}}>

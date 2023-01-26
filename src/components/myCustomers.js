@@ -6,9 +6,10 @@ import { useForm } from 'react-hook-form';
 
 function MyCustomers() {
 
-const { register } = useForm(); 
+const { register, reset } = useForm(); 
 const navigate = useNavigate();
 const [customers, setCustomers] =  useState();
+const [ error, setError] = useState();
 
 useEffect(() => {
     getCustomerData();
@@ -43,6 +44,12 @@ const onDataSubmit = async(e) => {
     const search = await CustomerService.searchCustomer(data);
     console.log(search.data);
     setCustomers(search.data);
+    setError('');
+    if(search.data.length < 1){
+      console.log('no');
+      setError('אין תוצאות');
+      
+    }
     if (!search) {
       console.log('not valid');  
     }
@@ -55,10 +62,12 @@ const onDataSubmit = async(e) => {
   return (
     <>
     <div className='container'>
-      <div className='row col-lg-4 m-3'>
-      <form className="d-flex" role="search">
-        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onKeyUp={(e) => {onDataSubmit(e)}} {...register("search")}/>
+      <h1 className='text-center'>הלקוחות שלנו</h1>
+      <div className='row col-lg-12 m-3'>
+      <form className="col-lg-4" role="search">
+        <input className="form-control me-2" type="search" placeholder="חיפוש..." aria-label="Search"  onKeyUp={(e) => {onDataSubmit(e)}} {...register("search")}/>
       </form>
+      <h3 className='col-lg-8'>{error}</h3>
       </div>
     </div>
     <div className="container">

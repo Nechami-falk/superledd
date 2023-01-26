@@ -26,6 +26,10 @@ export class ProductService{
         return http.get(`${apiUrl.apiUrl}/products/${productId}`);
     }
 
+    static getProductSearch(data){
+        return http.get(`${apiUrl.apiUrl}/products/search/${data}`);
+    }
+
     static getProductByName(productName){
         console.log('yyy',Date.now());
         return http.get(`${apiUrl.apiUrl}/products/name/${productName}`);
@@ -43,4 +47,5 @@ export class ProductService{
         return http.put(`${apiUrl.apiUrl}/products/${id}`, data)
     }
 
+    
 }
