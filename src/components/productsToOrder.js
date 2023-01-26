@@ -97,6 +97,7 @@ function ProductToOrder() {
       <th scope="col">חברה</th>
       <th scope="col">צבע</th>
       <th scope="col">תמונה</th>
+      <th scope="col">הערות</th>
       <th scope="col">כמות</th>
       <th scope="col">מחיר</th>
       <th scope="col">סה"כ</th>
@@ -114,6 +115,7 @@ function ProductToOrder() {
       <td>{prod.company}</td>
       <td>{prod.color}</td>
       <td style={{width:"8%"}}><img style={{width:"100%"}} src={`${urlImg.urlImg}/uploads/${prod.image}.png`} alt={prod.name} className="card-img-top"/></td>
+      <td>{prod.remarks}</td>
       <td>{prod.quantity}</td>
       <td>{prod.price}</td>
       <td>{(prod.price)*(prod.quantity)}</td>
