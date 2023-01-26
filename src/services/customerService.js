@@ -17,6 +17,11 @@ export class CustomerService{
         return http.get(`${apiUrl.apiUrl}/customers/${customerPhone}`);
     }
 
+    static searchCustomer(data){
+        console.log(data);
+        return http.get(`${apiUrl.apiUrl}/customers/search/${data}`);
+    }
+
     static editCustomer(id, data){
         return http.put(`${apiUrl.apiUrl}/customers/${id}`, data);
     }
@@ -26,4 +31,6 @@ export class CustomerService{
         console.log(id);
         return http.delete(`${apiUrl.apiUrl}/customers/${id}`);
     }
+
+    
 }
