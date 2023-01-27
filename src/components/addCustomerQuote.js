@@ -116,6 +116,7 @@ function AddCustomerQuote(props) {
           customerName:customerName,
           byEmployee:data.byEmployee,
           designer:data.designer,
+          title:data.title,
           status:'offerPrice',
           date:curr,
           numberOrder:bigOrderNumber ? bigOrderNumber : 100 ,
@@ -159,7 +160,10 @@ function AddCustomerQuote(props) {
           <label className="form-label">תאריך</label>
             <input className="form-control" type="date" defaultValue={tdate} name="date"{...register("date",{required:true})}/>
             
-            <label className="form-label">שם</label>
+            <label className="form-label">תאור/ כותרת הזמנה</label>
+            <input className="form-control text-end"  type="text" name="title"{...register("title",{required:true})}/>
+
+          <label className="form-label">שם</label>
             <input className="form-control text-end"  type="text" name="name"{...register("name",{required:true})}/>
             {errors.name && errors.name.type === "required" && (
             <p className="errorMsg" style={errorStyle}>חובה להזין שם</p>

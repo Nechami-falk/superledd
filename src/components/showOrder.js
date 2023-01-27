@@ -124,7 +124,10 @@ function ShowOrder() {
     <React.Fragment>
       
   <div className="container">
-  <h1 className="text-center h3">הצעת מחיר עבור: {order && order.customerName}</h1>
+  <h3 className="text-center h4">הצעת מחיר עבור: {order && order.customerName}</h3>
+  {order && order.title && 
+  <h4 className="text-center h5">תאור הזמנה: {order && order.title}</h4>
+  }
   <h5 className="text-center">תאריך: {order && order.date}     מספר הזמנה: {order && order.numberOrder}</h5>
   <h5 className="text-center">מבצעת ההזמנה: {order && order.byEmployee}</h5> 
   <table className="table table-striped table-hover">

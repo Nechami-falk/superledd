@@ -59,7 +59,7 @@ const onSearchSubmit = async(e) =>{
         <div className='container'>
         <h1 className='text-center'>המוצרים שלנו</h1>
         <div className='row col-lg-12 m-3'>
-            <form className="col-lg-4" role="search">
+      <form className="col-lg-4" role="search">
         <input className="form-control" type="search" placeholder="חיפוש..." aria-label="Search" onKeyUp={(e) => {onSearchSubmit(e)}} {...register("search")}/>
       </form>
       <h3 className='col-lg-8'>{error}</h3>
