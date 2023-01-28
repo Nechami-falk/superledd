@@ -43,9 +43,27 @@ const getCurrentDate = () =>{
   console.log(date);
   }
 
+  const onDataSubmit = async (e)=>{
+    console.log(e.target.value);
+    try{
+      let data = await ProductOrderService.getProductStatusBySearch(e.target.value, 'ordered' );
+      console.log(data);
+      setProductsOrdered(data.data);
+    }
+    catch(ex){
+      console.log(ex);
+    }
+   }
+  
+
   return (
     <React.Fragment>
     <div className="container">
+    <div className='row col-lg-12 m-3'>
+      <form className="col-lg-4" role="search">
+        <input className="form-control me-2" type="search" placeholder="חיפוש..." aria-label="Search"  onKeyUp={(e) => {onDataSubmit(e)}}/>
+      </form>
+      </div>
     <div className="container">
   <table className="table table-striped table-hover">
   <thead>

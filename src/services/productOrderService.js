@@ -8,6 +8,7 @@ export class ProductOrderService{
     }
 
     static getProductByStatus(status){
+        console.log(status);
         return http.get(`${apiUrl.apiUrl}/productOrders/${status}`);
     }
 
@@ -26,6 +27,10 @@ export class ProductOrderService{
     static getOrderByNumberOrder(numberOrder){
         console.log('number', numberOrder);
         return http.get(`${apiUrl.apiUrl}/productOrders/numberOrder/${numberOrder}`);
+    }
+
+    static getProductStatusBySearch(data, status){
+        return http.get(`${apiUrl.apiUrl}/productOrders/search/${status}?data=${data}`);
     }
 
     static deleteProdFromOrder(productId){
@@ -47,4 +52,6 @@ export class ProductOrderService{
         console.log('101010');
         return http.put(`${apiUrl.apiUrl}/productOrders?id=${id}&status=${status}&date=${date}`);
     }
+
+   
 }

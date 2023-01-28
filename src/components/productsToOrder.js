@@ -58,11 +58,12 @@ function ProductToOrder() {
   }
  }
   
- const onChangeCompany = async (e)=>{
+ const onDataSubmit = async (e)=>{
   console.log(e.target.value);
   try{
-    let data = await ProductOrderService.getProductToOrderByCompany(e.target.value, 'toOrder');
+    let data = await ProductOrderService.getProductStatusBySearch(e.target.value, 'toOrder' );
     console.log(data);
+    setProductsToOrder(data.data);
   }
   catch(ex){
     console.log(ex);
@@ -74,7 +75,7 @@ function ProductToOrder() {
       <div className='container'>
       <h1 className='text-center'>מוצרים להזמנה</h1>
 
-      <div className="input-group mb-3">
+  {/*     <div className="input-group mb-3">
   <div className="input-group-prepend">
     <label className="input-group-text" for="inputGroupSelect01">מיין לפי חברה</label>
   </div>
@@ -83,7 +84,14 @@ function ProductToOrder() {
       <option key={company._id} value={company.companyName}>{company.companyName}</option>
     ))}
   </select>
-</div>
+</div> */}
+
+<div className='row col-lg-12 m-3'>
+      <form className="col-lg-4" role="search">
+        <input className="form-control me-2" type="search" placeholder="חיפוש..." aria-label="Search"  onKeyUp={(e) => {onDataSubmit(e)}}/>
+      </form>
+   {/*    <h3 className='col-lg-8'>{error}</h3> */}
+      </div>
 
 
     <div className="container">

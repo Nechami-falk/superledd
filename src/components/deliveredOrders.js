@@ -30,9 +30,26 @@ const onDeleteFromProd = async(id)=>{
   }
 }
 
+const onDataSubmit = async (e)=>{
+  console.log(e.target.value);
+  try{
+    let data = await ProductOrderService.getProductStatusBySearch(e.target.value, 'provided' );
+    console.log(data);
+    setProductsDeliver(data.data);
+  }
+  catch(ex){
+    console.log(ex);
+  }
+ }
+
   return (
     <React.Fragment>
     <div className="container">
+    <div className='row col-lg-12 m-3'>
+      <form className="col-lg-4" role="search">
+        <input className="form-control me-2" type="search" placeholder="חיפוש..." aria-label="Search"  onKeyUp={(e) => {onDataSubmit(e)}}/>
+      </form>
+      </div>
     <div className="container">
   <table className="table table-striped table-hover">
   <thead>
@@ -45,6 +62,7 @@ const onDeleteFromProd = async(id)=>{
       <th scope="col">חברה</th>
       <th scope="col">צבע</th>
       <th scope="col">תמונה</th>
+      <th scope="col">הערות</th>
       <th scope="col">כמות</th>
       <th scope="col">מחיר</th>
       <th scope="col">סה"כ</th>
@@ -63,6 +81,7 @@ const onDeleteFromProd = async(id)=>{
       <td>{prod.company}</td>
       <td>{prod.color}</td>
       <td style={{width:"8%"}}><img style={{width:"100%"}} src={`${urlImg.urlImg}/uploads/${prod.image}.png`} alt={prod.name} className="card-img-top"/></td>
+      <td>{prod.remarks}</td>
       <td>{prod.quantity}</td>
       <td>{prod.price}</td>
       <td>{parseFloat((prod.price)*(prod.quantity)).toFixed(2)}</td>

@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { CustomerService } from '../services/customerService'
-import { useForm } from 'react-hook-form';
+
 
 function MyCustomers() {
 
-const { register, reset } = useForm(); 
+
 const navigate = useNavigate();
 const [customers, setCustomers] =  useState();
 const [ error, setError] = useState();
@@ -65,7 +65,7 @@ const onDataSubmit = async(e) => {
       <h1 className='text-center'>הלקוחות שלנו</h1>
       <div className='row col-lg-12 m-3'>
       <form className="col-lg-4" role="search">
-        <input className="form-control me-2" type="search" placeholder="חיפוש..." aria-label="Search"  onKeyUp={(e) => {onDataSubmit(e)}} {...register("search")}/>
+        <input className="form-control me-2" type="search" placeholder="חיפוש..." aria-label="Search"  onKeyUp={(e) => {onDataSubmit(e)}}/>
       </form>
       <h3 className='col-lg-8'>{error}</h3>
       </div>
