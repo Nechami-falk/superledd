@@ -1,7 +1,7 @@
 import React from 'react';
 
 const style={
-    backgroundColor:"yellow",
+    
     textAlighn:"center"
     
 }
@@ -16,11 +16,13 @@ const img = {
 
 
 
+
+
 function Home() {
   return (
     <React.Fragment>
     <div className='container' style={style}> 
-    <h1 className='text-center'>מערכת הזמנות סופרלד שלום!!!</h1>
+    <h1 className='text-center mt-5 h-header'>מערכת הזמנות</h1>
         <img style={img} src='../images/logo-1.jpg' alt="logo"/>
     </div>
     </React.Fragment>

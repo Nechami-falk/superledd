@@ -18,3 +18,24 @@
     background-color: red;
     color: yellow;
 }
+
+.h-header {
+    animation-duration: 3s;
+    animation-name: slidein;
+    animation-iteration-count: infinite;
+    color:yellow;
+    font-size: 80px;
+  }
+
+@keyframes slidein {
+    from {
+      margin-left: 100%;
+      width: 300%;
+    }
+  
+    to {
+      margin-left: 0%;
+      width: 100%;
+    }
+}
+
