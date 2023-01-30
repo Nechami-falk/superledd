@@ -59,7 +59,7 @@ return(
         <Text style={styles.row3}>{prod.company}</Text>
         <Text style={styles.row5}>{prod.color}</Text>
         <Text style={styles.row5}>
-            <Image src={`http://localhost:8182/uploads/${prod.catalogNumber}.png`} alt={prod.name}></Image>
+            <Image src={`http://localhost:8182/data/uploads/${prod.catalogNumber}.png`} alt={prod.name}></Image>
         </Text>
         <Text style={styles.row5}>{prod.quantity}</Text>
         <Text style={styles.row5}>{prod.price}</Text>

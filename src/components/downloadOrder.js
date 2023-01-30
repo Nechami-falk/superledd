@@ -93,7 +93,7 @@ function DownloadOrder() {
         <td>{prod.shadeLight}</td>
         <td>{prod.location}</td>
         <td style={{width:"8%"}}>
-        <img style={{width:"100%"}} src={`${urlImg.urlImg}/uploads/${prod.image}.png`} alt={prod.name} /* className="card-img-top" *//>
+        <img style={{width:"100%"}} src={`${urlImg.urlImg}/data/uploads/${prod.image}.png`} alt={prod.name} /* className="card-img-top" *//>
         </td>
         <td>{prod.quantity}</td>
         <td>{prod.price}</td>

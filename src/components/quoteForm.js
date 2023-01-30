@@ -96,7 +96,8 @@ const onSearchSubmit = async (e)=>{
           <div className="card col-lg-5 m-3">
           
             <div className="card-body">
-            <h4><span className="me-5">{quote.date}</span>  {quote.customerName}</h4>
+            <h4>{quote.customerName} {quote.title && `- ${quote.title}`}</h4>
+            <h4 className="me-5">{quote.date}</h4>
             <div className ="d-flex justify-content-between">
             <button  onClick={()=>{goShowProduct(quote)}} className="btn btn-primary">פרטי ההזמנה </button>
             <button  onClick={()=>{onDeleteOrder(quote)}} className="btn btn-danger">מחיקת ההזמנה</button>
