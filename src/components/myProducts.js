@@ -67,7 +67,7 @@ const onSearchSubmit = async(e) =>{
         <div className="row">
             {products && products.map((prod)=>(
         <div className="card m-3" key={prod.id} style={{width: "18rem"}}>
-          <img className="card-img-top imgMyProd" src={`${urlImg.urlImg}/data/uploads/${prod.image}.png`} alt="Card cap"/>
+          <img className="card-img-top imgMyProd" src={`${urlImg.urlImg}/../uploads/${prod.image}.png`} alt="Card cap"/>
           <div className="card-body">
             <h5 className="card-title">{prod.name}</h5>
             <p className="card-text">מחיר : {prod.price}</p>

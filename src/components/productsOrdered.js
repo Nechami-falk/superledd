@@ -92,7 +92,7 @@ const getCurrentDate = () =>{
       <td>{prod.customerName}</td>
       <td>{prod.company}</td>
       <td>{prod.color}</td>
-      <td style={{width:"8%"}}><img style={{width:"100%"}} src={`${urlImg.urlImg}/data/uploads/${prod.image}.png`} alt={prod.name} className="card-img-top"/></td>
+      <td style={{width:"8%"}}><img style={{width:"100%"}} src={`${urlImg.urlImg}/../uploads/${prod.image}.png`} alt={prod.name} className="card-img-top"/></td>
       <td>{prod.remarks}</td>
       <td>{prod.quantity}</td>
       <td>{prod.price}</td>
