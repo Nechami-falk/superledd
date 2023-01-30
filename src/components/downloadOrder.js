@@ -79,6 +79,7 @@ function DownloadOrder() {
         <th scope="col">צבע אור</th>
         <th scope="col">מיקום בבית</th>
         <th scope="col">תמונה</th>
+        <th scope="col">הערות</th>
         <th scope="col">כמות</th>
         <th scope="col">מחיר</th>
         <th scope="col">סה"כ</th>
@@ -95,6 +96,7 @@ function DownloadOrder() {
         <td style={{width:"8%"}}>
         <img style={{width:"100%"}} src={`${urlImg.urlImg}/../uploads/${prod.image}.png`} alt={prod.name} /* className="card-img-top" *//>
         </td>
+        <td>{prod.remarks}</td>
         <td>{prod.quantity}</td>
         <td>{prod.price}</td>
         <td>{(prod.price)*(prod.quantity)}</td>
