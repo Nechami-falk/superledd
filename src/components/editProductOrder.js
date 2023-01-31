@@ -32,18 +32,25 @@ function EditProductOrder() {
       let details = await ProductOrderService.getProductById(prodId);
       setProduct(details.data);
       console.log(details.data);
-      setPrice(details.data.price);
+      
       console.log(details.data.image);
+      setValue('name', details.data.name);
       setValue('category', details.data.category);
       setValue('company', details.data.company);
       setValue('location', details.data.location);
       setValue('shadeLight', details.data.shadeLight);
-      reset({});
+      setValue('model',details.data.model);
+      setValue('color', details.data.color);
+      setValue('agentPrice', details.data.agentPrice);
+      setValue('price', details.data.price);
+      setValue('image', details.data.image);
+      setValue('quantity', details.data.quantity);
+      setValue('catalogNumber', details.data.catalogNumber);
     }
     catch(ex){
       console.log(ex);
     }
-  },[location.state, reset, setValue]);
+  },[location.state, setValue]);
 
 
 
@@ -106,21 +113,22 @@ catch(ex){
   
   const caculatePrice = (e) =>{
     console.log(e.target.value);
-    let price=e.target.value;
-    if(price <= 500){
-     let newPrice = parseFloat(price*1.8).toFixed(2);
-     console.log('קטן מחמש מאות');
-     setPrice(newPrice);
+    let agentPrice=e.target.value;
+    setValue('agentPrice',agentPrice )
+    if(agentPrice <= 500){
+     let newPrice = parseFloat(agentPrice*1.8).toFixed(2);
+     console.log('קטן מחמש מאות',newPrice);
+     setValue('price',newPrice);
     }
-    if(price > 500 && price < 1000){
-      let newPrice = parseFloat(price * 1.7).toFixed(2);
-      console.log('קטן מאלף ');
-      setPrice(newPrice);
+    if(agentPrice > 500 && agentPrice < 1000){
+      let newPrice = parseFloat(agentPrice * 1.7).toFixed(2);
+      console.log('קטן מאלף ',newPrice);
+      setValue('price',newPrice);
     }
-    if(price >= 1000){
-      let newPrice = parseFloat(price * 1.65).toFixed(2);
-      console.log('גדול מאלף ');
-      setPrice(newPrice);
+    if(agentPrice >= 1000){
+      let newPrice = parseFloat(agentPrice * 1.65).toFixed(2);
+      console.log('גדול מאלף ',newPrice);
+      setValue('price',newPrice);
     }
   }
 
@@ -128,7 +136,6 @@ catch(ex){
     console.log(data);
     console.log(product);
     const newData = data;
-    newData.price = price;
     newData._id = product._id;
     if(!image){
     console.log(data);
@@ -220,7 +227,7 @@ catch(ex){
         </datalist>*/}
 
    <label className="form-label">שם המוצר</label>
-   <input className="form-control text-end" type="text" name="name" defaultValue={product && product.name} {...register('name')} />
+   <input className="form-control text-end" type="text" name="name" {...register('name')} />
 
           <label className="form-label">חברה</label>
             <select className="form-select" defaultValue={product && product.company} name="company"{...register('company')}>
@@ -254,30 +261,30 @@ catch(ex){
         <select className="form-select text-end" name="shadeLight" {...register("shadeLight")}>
           
              {shadesLight && shadesLight.map((shade, i) => (
-          <option className="option-form text-end" key={i} defaultValue={product && product.shadeLight}>{shade}</option>
+          <option className="option-form text-end" key={i}>{shade}</option>
             ))};
         </select>
 
           <label className="form-label">מק"ט</label>
-            <input className="form-control text-end" type="text" defaultValue={product && product.catalogNumber} {...register('catalogNumber')} />
+            <input className="form-control text-end" type="text" {...register('catalogNumber')} />
           
           <label className="form-label">צבע</label>
-            <input className="form-control text-end"  type="text" name="color" defaultValue={ product && product.color} {...register('color')}/>
+            <input className="form-control text-end"  type="text" name="color" {...register('color')}/>
           
             <label className="form-label">מחיר סוכן</label>
-            <input className="form-control text-end" name="agentPrice" onKeyUp={(e)=>caculatePrice(e)} type="text" defaultValue={ product && product.agentPrice} {...register('agentPrice')}/>        
+            <input className="form-control text-end" name="agentPrice" onKeyUp={(e)=>caculatePrice(e)} type="text" {...register('agentPrice')}/>        
 
           <label className="form-label">מחיר</label>
-            <input className="form-control text-end" name="price" type="text" defaultValue={price} {...register('price')}/>        
+            <input className="form-control text-end" name="price" type="text"  {...register('price')}/>        
           
           <label className="form-label">תמונה</label>
-            <input className="form-control text-end" onInput={onChange} type="file" defaultValue={ product && product.image} onChange={handleFileChange}  {...register('image')}/>
+            <input className="form-control text-end" onInput={onChange} type="file"  onChange={handleFileChange}  {...register('image')}/>
           
           <label className="form-label">כמות</label>
-          <input className="form-control text-end"  type="number" step="any" name="quantity" defaultValue={product && product.quantity} {...register('quantity')}/> 
+          <input className="form-control text-end"  type="number" step="any" name="quantity"  {...register('quantity')}/> 
 
           <label className="form-label">הערות</label>
-            <input className="form-control text-end"  type="text" name ="remarks" defaultValue={ product? product.remarks : ''} {...register('remarks')}/> 
+            <input className="form-control text-end"  type="text" name ="remarks"  {...register('remarks')}/> 
           
         <h3 style={{color:"red"}}>{error && error}</h3>
 
