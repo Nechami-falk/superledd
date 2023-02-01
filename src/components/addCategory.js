@@ -6,11 +6,13 @@ import {CategoryService} from '../services/categoryService';
 
 function AddCategory() {
 
-    const { register, handleSubmit, resetField  } = useForm({
+    const { register, handleSubmit, resetField } = useForm({
         defaultValue:{
             categoryName:''
         }
     }); 
+
+
 
     const onSubmit = async (data) => {
         console.log(data);
@@ -36,8 +38,6 @@ function AddCategory() {
             <input type="submit" className="btn btn-success mt-3"/>
         </form>
     </div>
-
-    
   )
 }
 
