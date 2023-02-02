@@ -35,6 +35,7 @@ function NavBar() {
               <NavDropdown.Item to="/addCategory" as={Link} className="text-end">הוספת קטגוריה</NavDropdown.Item>
               <NavDropdown.Item to="/addCustomer" as={Link} className="text-end">הוספת לקוח</NavDropdown.Item>
               <NavDropdown.Item to="/addLocation" as={Link} className="text-end">הוספת מיקום</NavDropdown.Item>
+              <NavDropdown.Item to="/myImageProducts" as={Link} className="text-end">תמונות של המוצרים</NavDropdown.Item>
             </NavDropdown>
 
           <NavDropdown title="הצעות מחיר" id="basic-nav-dropdown">
