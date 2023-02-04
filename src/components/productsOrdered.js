@@ -35,12 +35,13 @@ const onUpdateProvided = async(id)=>{
 }
 
 const getCurrentDate = () =>{
-  let curr = new Date();
-  console.log(curr);
-  curr.setDate(curr.getDate());
-  var date = curr.toISOString().substring(0,10);
-  setDate(date);
-  console.log(date);
+  let month  = new Date().getMonth();
+  let year = new Date().getFullYear();
+  let day = new Date().getDate();
+  const newDate = `${day}/${month+1}/${year}`
+  console.log(newDate,month, year, day);
+  setDate(newDate);
+  console.log(newDate);
   }
 
   const onDataSubmit = async (e)=>{

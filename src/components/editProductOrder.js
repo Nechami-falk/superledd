@@ -43,6 +43,7 @@ function EditProductOrder() {
       setValue('color', details.data.color);
       setValue('agentPrice', details.data.agentPrice);
       setValue('price', details.data.price);
+      setValue('remarks', details.data.remarks)
       setValue('image', details.data.image);
       setValue('quantity', details.data.quantity);
       setValue('catalogNumber', details.data.catalogNumber);
@@ -278,8 +279,9 @@ catch(ex){
             <input className="form-control text-end" name="price" type="text"  {...register('price')}/>        
           
           <label className="form-label">תמונה</label>
-            <input className="form-control text-end" onInput={onChange} type="file"  onChange={handleFileChange}  {...register('image')}/>
           
+            <input className="form-control text-end" title="Choose a video please" onInput={onChange} type="file"  onChange={handleFileChange}  {...register('image')}/>
+            
           <label className="form-label">כמות</label>
           <input className="form-control text-end"  type="number" step="any" name="quantity"  {...register('quantity')}/> 
 

@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 function ShowOrder() {
   let location = useLocation();
   const navigate = useNavigate();
+  const [date, setDate] = useState();
   const [order, setOrder ] = useState();
   const [products, setProducts] = useState([]);
   const [totalPayment, setTotalPayment] = useState();
@@ -40,6 +41,22 @@ function ShowOrder() {
     console.log('useEffect');
   },[getOrderDetails]);
 
+
+  useEffect(() => {
+    getCurrentDate();
+    
+  },)
+
+  const getCurrentDate = () =>{
+    let month  = new Date().getMonth();
+    let year = new Date().getFullYear();
+    let day = new Date().getDate();
+    const newDate = `${day}/${month+1}/${year}`
+    console.log(newDate,month, year, day);
+    setDate(newDate);
+    console.log(newDate);
+    }
+  
   const statuses = [{value:'ordered', name:'הוזמן'}, 
                     {value:'toOrder', name:'להזמנה'},
                     {value:'inStock',name:'במלאי'},
@@ -111,7 +128,7 @@ function ShowOrder() {
     const status = event.target.value;
     setIsShow(current => !current);
     try{
-      await ProductOrderService.updateStatusToProduct(productId, status)
+      await ProductOrderService.updateStatusToProduct(productId, status, date)
       getOrderDetails();
     }
     catch(ex){

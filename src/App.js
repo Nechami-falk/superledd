@@ -30,6 +30,7 @@ import MyProducts from './components/myProducts';
 import MyCustomers from './components/myCustomers';
 import EditCustomer from './components/editCustomer';
 import EditProduct from './components/editProduct';
+import MyImageProducts from './components/myImageProducts';
 
 
 function App() {
@@ -69,6 +70,7 @@ function App() {
       <Route path = "myCustomers" element={<MyCustomers/>}/>
       <Route path = "editCustomer" element={<EditCustomer/>}/>
       <Route path = "editProduct" element={<EditProduct/>}/>
+      <Route path = "myImageProducts" element={<MyImageProducts/>}/>
       <Route exact path = "/" element={<Home/>}/>
       
       <Route path = "/" element={<Page404/>}/>
