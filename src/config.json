@@ -1,4 +1,4 @@
 { 
-"apiUrl": "http://localhost:8182/api",
-"urlImg": "http://localhost:8182"
+    "apiUrl": "https://superled-api-v0yq.onrender.com/api",
+    "urlImg": "https://superled-api-v0yq.onrender.com"  
 }
