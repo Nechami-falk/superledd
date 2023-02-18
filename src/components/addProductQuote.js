@@ -21,25 +21,16 @@ function AddProductQuote() {
   const [price, setPrice] = useState();
   const [numOfImage, setNumOfImage] =useState();
   const [productName,setProductName] = useState();
-/*   const [quantity, setQuantity] = useState(1); */
   const [catalogNumber, setCatalogNumber] = useState();
   const [companyInput, setCompanyInput] = useState(false);
   const [categoryInput, setCategoryInput] = useState(false);
   const [locationInput, setLocationInput] = useState(false);
-  const { register, handleSubmit, reset } = useForm({ });
-  
-  /* const getOrderDetails= () =>{
-    console.log('ggg');
-    console.log(location.state);
-    setOrderDetails(location.state);
-} */
+  const { register, handleSubmit, reset } = useForm({});
 
 const getProducts = async() =>{
-  console.log();
   try{
   const data = await ProductService.getProducts();
-  setProducts(data.data);
-  console.log(data.data);
+  setProducts(data.data);;
 }
 catch(ex){
   console.log(ex.response);
@@ -54,38 +45,39 @@ catch(ex){
     getProducts();
   }, []);
 
- useEffect(() => {
+useEffect(()=>{
   getImageNum();
-  }, []);
+},[]);
 
   const getImageNum = ()=>{
+    console.log('imageNummmm');
     const num = Date.now().toString();
-    console.log('numOfImage',num);
     setNumOfImage(num);
+    console.log(num);
   }
   
 
   const getCatalogNumber = useCallback(
     async() =>{
-    console.log('11111');
     try{
     let newCatalogNumber = await ProductService.getCatalogNumber();
     newCatalogNumber = (newCatalogNumber.data[0].catalogNumber)+1;
-    console.log(newCatalogNumber);
     setCatalogNumber(newCatalogNumber);
-    console.log(newCatalogNumber);
     reset({
       catalogNumber:newCatalogNumber
     });
     setPrice();
     }
   catch(ex){
-    console.log(ex.response);
     if(ex.response === undefined){
       setCatalogNumber(100);
     }
   }
 },[reset])
+
+/* useEffect(() => {
+  getImageNum();
+  }, []); */
 
   useEffect(() => {
     getCatalogNumber();
@@ -111,27 +103,26 @@ catch(ex){
     <option className="option-form text-end" key={i} defaultValue={currentProd && currentProd.shadeLight}>{shade}</option>
       )),[currentProd, shadesLight]);
 
-  function handleFileChange(e) {
+/*   function handleFileChange(e) {
     const img = {
       data: e.target.files[0],
     };
     console.log(img);
     setImage(img);
-  }
-
-
+  } */
 
 const onChange = (e)=>{
-  console.log('imageeeee');
   const img =e.target.files[0];
   setImage(img);
-  console.log(img);
 }
 
 
   const addProductToDB = async(data) => {
-    console.log(data);
-    console.log('numofimage',numOfImage);
+    /* if(numOfImage === undefined ){
+      console.log('plissss!');
+      getImageNum();
+      console.log(numOfImage);
+    } */
     const newData = {
       name:data.name,
       company:data.company,
@@ -171,11 +162,13 @@ const onChange = (e)=>{
 
 
  const onSubmit = async(data) => {
- 
-  if(data.name){
-    console.log(data.name);
+  
+  if(numOfImage === undefined ){
+    console.log('plissss!');
+    getImageNum();
   }
-  else{
+
+  if(!data.name){
     onCompletionOrder();
     return
   }
@@ -193,7 +186,6 @@ const onChange = (e)=>{
     delete data.location2;
     }
   let details = '';
-  console.log(data);
    if(data.category === 'בחר'){
      data.category = '';
    }
@@ -205,8 +197,7 @@ const onChange = (e)=>{
    }
 
    if(!currentProd){
-    console.log('current prod yes');
-    console.log('data', data);
+    console.log(numOfImage);
     addProductToDB(data);
     let newOrderDetails = {
       customerName:orderDetails.customerName,
@@ -223,10 +214,7 @@ const onChange = (e)=>{
        }
      console.log(details);
   }
-  else{
- 
- console.log(data);
- console.log('123'); 
+  else{ 
  let newOrderDetails = {
   customerName:orderDetails.customerName,
   customerId:orderDetails.customerId,
@@ -240,6 +228,7 @@ const onChange = (e)=>{
      ...newOrderDetails,
      ...data,
     }
+    console.log(details);
   }
    try{
      await ProductOrderService.addProductToOrder(details);
@@ -268,37 +257,28 @@ const onChange = (e)=>{
  
 
   const onSelect = async(e) =>{
-      
-      console.log('befor', Date.now());
       setError('');
       let name = e.target.value;
       setProductName(name);
-      console.log(name);
       try{
       let data = await ProductService.getProductByName(name);
-      console.log('after');
-      console.log(data);
       setCurrentProd(data.data);
       setImage(data.data.image);
-      console.log(data.data.image);
       setCatalogNumber(data.data.catalogNumber);
       reset({});
     }
       catch(ex){
         if(ex){
-          console.log('no');
-          console.log(ex);
           getCatalogNumber();
           setCurrentProd();
+          getImageNum();
         }
-        console.log(ex.response.data);
         setError2(ex.response.data);
       }
     };
    
 
   const onCompletionOrder= ()=>{
-    console.log('gggjjjj');
     toast.success('ההזמנה נשלחה בהצלחה');
     navigate('/showOrder', {state:orderDetails}); 
     }
@@ -311,23 +291,19 @@ const onChange = (e)=>{
   }; */
 
   const caculatePrice = (e) =>{
-    console.log(e.target.value);
     let price=e.target.value;
     if(price <= 500){
      let newPrice = parseFloat(price*1.8).toFixed(2);
-     console.log('קטן מחמש מאות');
      setPrice(newPrice);
      reset({price:newPrice})
     }
     if(price > 500 && price < 1000){
       let newPrice = parseFloat(price * 1.7).toFixed(2);
-      console.log('קטן מאלף ');
       setPrice(newPrice);
       reset({price:newPrice})
     }
     if(price >= 1000){
       let newPrice = parseFloat(price * 1.65).toFixed(2);
-      console.log('גדול מאלף ');
       setPrice(newPrice);
       reset({price:newPrice})
     }
@@ -335,7 +311,6 @@ const onChange = (e)=>{
   }
 
   const onChangeCompany =(e)=>{
-    console.log(e.target.value);
     if(e.target.value === "אחר"){
       setCompanyInput((current) => !current);
     }
@@ -345,7 +320,6 @@ const onChange = (e)=>{
   }
 
   const onChangeCategory = (e)=>{
-    console.log(e.target.value);
     if(e.target.value === "אחר"){
     setCategoryInput((current) => !current);
     }
@@ -355,7 +329,6 @@ const onChange = (e)=>{
   }
 
   const onChangeLocation =(e)=>{
-    console.log(e.target.value);
     if(e.target.value === "אחר"){
     setLocationInput((current) => !current);
   }
@@ -454,7 +427,7 @@ const onChange = (e)=>{
             <input className="form-control text-end"  type="text" name='price' defaultValue={ currentProd ? currentProd.price : price} {...register('price')}/>        
           
           <label className="form-label">תמונה</label>
-            <input className="form-control text-end" onInput={onChange} type="file" name="image" defaultValue={ currentProd && currentProd.image} onChange={handleFileChange}  {...register('image')}/> 
+            <input className="form-control text-end" onInput={onChange} type="file" name="image" defaultValue={ currentProd && currentProd.image} /* onChange={handleFileChange}  */ {...register('image')}/> 
           
           <label className="form-label">כמות</label>
           <input className="form-control text-end"  type="number" step="any" defaultValue={1} {...register('quantity')}/> 
