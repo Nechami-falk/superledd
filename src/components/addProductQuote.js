@@ -426,7 +426,7 @@ const onChange = (e)=>{
           <label className="form-label">מחיר</label>
             <input className="form-control text-end"  type="text" name='price' defaultValue={ currentProd ? currentProd.price : price} {...register('price')}/>        
           
-          <label className="form-label">תמונה</label>
+          <label className="form-label">תמונה - * תזכורת אין לעדכן תמונה למוצר קיים בטופס זה</label>
             <input className="form-control text-end" onInput={onChange} type="file" name="image" defaultValue={ currentProd && currentProd.image} /* onChange={handleFileChange}  */ {...register('image')}/> 
           
           <label className="form-label">כמות</label>
